@@ -7,10 +7,19 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
-:root{--bg:#0a0b0e;--bg2:#10131a;--bg3:#161b26;--border:#1e2535;--border2:#2a3347;--text:#e2e8f0;--text2:#8896a8;--text3:#4a5568;--green:#10b981;--red:#ef4444;--yellow:#f59e0b;--accent:#3b82f6;--accent2:#60a5fa;--mono:'IBM Plex Mono',monospace;--sans:'Noto Sans KR',sans-serif;}
+:root{
+  --bg:#12141c;--bg2:#1a1d2e;--bg3:#22263a;
+  --border:#2d3250;--border2:#3d4470;
+  --text:#f0f2ff;--text2:#b0b8d8;--text3:#6878a8;
+  --green:#4ade80;--red:#ff6b8a;--yellow:#ffd166;
+  --blue:#60a5fa;--orange:#ff9f43;--purple:#c084fc;
+  --accent:#60a5fa;--accent2:#93c5fd;
+  --pension:#60a5fa;--irp:#4ade80;--dc:#ffd166;
+  --mono:'IBM Plex Mono',monospace;--sans:'Noto Sans KR',sans-serif;
+}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;}
-header{padding:20px 40px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+header{padding:22px 40px;border-bottom:1px solid var(--border);background:var(--bg2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
 .logo{display:flex;align-items:center;gap:14px;}
 .logo img{height:52px;width:auto;}
 .logo-text h1{font-size:18px;font-weight:700;letter-spacing:-.03em;}
@@ -26,45 +35,45 @@ main{max-width:1440px;margin:0 auto;padding:28px 40px 80px;}
 .sum-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:28px;}
 @media(max-width:1100px){.sum-grid{grid-template-columns:repeat(3,1fr);}}
 @media(max-width:680px){.sum-grid{grid-template-columns:repeat(2,1fr);}}
-.sum-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px 18px;}
-.sum-label{font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;}
-.sum-value{font-family:var(--mono);font-size:17px;font-weight:600;line-height:1.2;}
+.sum-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:18px 20px;transition:border-color .2s;}.sum-card:hover{border-color:var(--border2);}
+.sum-label{font-family:var(--mono);font-size:10px;color:var(--text2);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px;}
+.sum-value{font-family:var(--mono);font-size:18px;font-weight:700;line-height:1.2;}
 .sum-value.up{color:var(--green);} .sum-value.dn{color:var(--red);}
 .sum-sub{font-family:var(--mono);font-size:10px;color:var(--text3);margin-top:4px;}
 
 /* 계좌별 카드 */
 .acct-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px;}
 @media(max-width:900px){.acct-grid{grid-template-columns:1fr;}}
-.acct-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px 20px;}
+.acct-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:20px 22px;transition:border-color .2s;}.acct-card:hover{border-color:var(--border2);}
 .acct-name{font-size:13px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
 .acct-dot{width:10px;height:10px;border-radius:50%;}
-.acct-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border);}
+.acct-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);}
 .acct-row:last-child{border-bottom:none;}
-.acct-key{font-family:var(--mono);font-size:10px;color:var(--text3);}
-.acct-val{font-family:var(--mono);font-size:12px;font-weight:600;}
+.acct-key{font-family:var(--mono);font-size:11px;color:var(--text2);}
+.acct-val{font-family:var(--mono);font-size:13px;font-weight:700;}
 .acct-bar-wrap{height:4px;background:var(--border);border-radius:2px;margin-top:10px;overflow:hidden;}
 .acct-bar{height:100%;border-radius:2px;transition:width .8s;}
 
 /* 섹션 */
 .section{margin-bottom:36px;}
 .section-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);}
-.section-title{font-size:13px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--text2);font-family:var(--mono);}
-.section-line{flex:1;height:1px;background:linear-gradient(to right,var(--border2),transparent);}
+.section-title{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);font-family:var(--mono);}
+.section-line{flex:1;height:1px;background:linear-gradient(to right,var(--border2),transparent);margin-left:4px;}
 
 /* 카드 */
-.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
-.card-header{padding:13px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
-.card-title{font-size:12px;font-weight:600;}
-.card-sub{font-size:10px;color:var(--text3);font-family:var(--mono);margin-top:1px;}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:border-color .2s;}.card:hover{border-color:var(--border2);}
+.card-header{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.card-title{font-size:13px;font-weight:700;letter-spacing:-.01em;}
+.card-sub{font-size:11px;color:var(--text2);font-family:var(--mono);margin-top:2px;}
 .chart-wrap{padding:20px;}
 .h380{height:380px;position:relative;}
 .h240{height:240px;position:relative;}
 
 /* 탭 */
 .tabs{display:flex;gap:4px;}
-.tab{font-family:var(--mono);font-size:10px;padding:3px 9px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--text3);cursor:pointer;transition:all .15s;}
+.tab{font-family:var(--mono);font-size:10px;padding:4px 10px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s;}
 .tab:hover{color:var(--text2);border-color:var(--border2);}
-.tab.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+.tab.active{background:var(--accent);color:#12141c;font-weight:700;border-color:var(--accent);}
 
 /* 범례 */
 .legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;}
@@ -112,28 +121,28 @@ footer p{font-size:11px;color:var(--text3);font-family:var(--mono);}
   <!-- 계좌별 현황 -->
   <div class="acct-grid">
     <div class="acct-card">
-      <div class="acct-name"><div class="acct-dot" style="background:#3b82f6"></div>연금저축펀드<span style="font-family:var(--mono);font-size:10px;color:var(--text3);margin-left:auto;" id="dur-pension"></span></div>
+      <div class="acct-name"><div class="acct-dot" style="background:var(--pension)"></div>연금저축펀드<span style="font-family:var(--mono);font-size:10px;color:var(--text3);margin-left:auto;" id="dur-pension"></span></div>
       <div class="acct-row"><span class="acct-key">납입 원금</span><span class="acct-val" id="ap-p">—</span></div>
       <div class="acct-row"><span class="acct-key">월말 평가금액</span><span class="acct-val" id="ap-e">—</span></div>
       <div class="acct-row"><span class="acct-key">운용 수익</span><span class="acct-val" id="ap-g">—</span></div>
       <div class="acct-row"><span class="acct-key">수익률</span><span class="acct-val" id="ap-r">—</span></div>
-      <div class="acct-bar-wrap"><div class="acct-bar" id="ap-bar" style="background:#3b82f6"></div></div>
+      <div class="acct-bar-wrap"><div class="acct-bar" id="ap-bar" style="background:var(--pension)"></div></div>
     </div>
     <div class="acct-card">
-      <div class="acct-name"><div class="acct-dot" style="background:#10b981"></div>개인형 IRP<span style="font-family:var(--mono);font-size:10px;color:var(--text3);margin-left:auto;" id="dur-irp"></span></div>
+      <div class="acct-name"><div class="acct-dot" style="background:var(--irp)"></div>개인형 IRP<span style="font-family:var(--mono);font-size:10px;color:var(--text3);margin-left:auto;" id="dur-irp"></span></div>
       <div class="acct-row"><span class="acct-key">납입 원금</span><span class="acct-val" id="ai-p">—</span></div>
       <div class="acct-row"><span class="acct-key">월말 평가금액</span><span class="acct-val" id="ai-e">—</span></div>
       <div class="acct-row"><span class="acct-key">운용 수익</span><span class="acct-val" id="ai-g">—</span></div>
       <div class="acct-row"><span class="acct-key">수익률</span><span class="acct-val" id="ai-r">—</span></div>
-      <div class="acct-bar-wrap"><div class="acct-bar" id="ai-bar" style="background:#10b981"></div></div>
+      <div class="acct-bar-wrap"><div class="acct-bar" id="ai-bar" style="background:var(--irp)"></div></div>
     </div>
     <div class="acct-card">
-      <div class="acct-name"><div class="acct-dot" style="background:#f59e0b"></div>DC<span style="font-family:var(--mono);font-size:10px;color:var(--text3);margin-left:auto;" id="dur-dc"></span></div>
+      <div class="acct-name"><div class="acct-dot" style="background:var(--dc)"></div>DC<span style="font-family:var(--mono);font-size:10px;color:var(--text3);margin-left:auto;" id="dur-dc"></span></div>
       <div class="acct-row"><span class="acct-key">납입 원금</span><span class="acct-val" id="ad-p">—</span></div>
       <div class="acct-row"><span class="acct-key">월말 평가금액</span><span class="acct-val" id="ad-e">—</span></div>
       <div class="acct-row"><span class="acct-key">운용 수익</span><span class="acct-val" id="ad-g">—</span></div>
       <div class="acct-row"><span class="acct-key">수익률</span><span class="acct-val" id="ad-r">—</span></div>
-      <div class="acct-bar-wrap"><div class="acct-bar" id="ad-bar" style="background:#f59e0b"></div></div>
+      <div class="acct-bar-wrap"><div class="acct-bar" id="ad-bar" style="background:var(--dc)"></div></div>
     </div>
   </div>
 
@@ -150,11 +159,11 @@ footer p{font-size:11px;color:var(--text3);font-family:var(--mono);}
       <div class="chart-wrap">
         <div class="h380"><canvas id="main-chart"></canvas></div>
         <div class="legend" style="margin-top:10px;">
-          <div class="leg"><div class="leg-box" style="background:#3b82f666;border:1px solid #3b82f6"></div>연금저축</div>
-          <div class="leg"><div class="leg-box" style="background:#10b98166;border:1px solid #10b981"></div>개인형IRP</div>
-          <div class="leg"><div class="leg-box" style="background:#f59e0b66;border:1px solid #f59e0b"></div>DC</div>
-          <div class="leg"><div class="leg-dash" style="border-color:#ffffff60"></div>납입원금(합계)</div>
-          <div class="leg"><div class="leg-line" style="background:#ef4444;"></div>운용수익(합계)</div>
+          <div class="leg"><div class="leg-box" style="background:#60a5fa44;border:1px solid #60a5fa"></div>연금저축</div>
+          <div class="leg"><div class="leg-box" style="background:#4ade8044;border:1px solid #4ade80"></div>개인형IRP</div>
+          <div class="leg"><div class="leg-box" style="background:#ffd16644;border:1px solid #ffd166"></div>DC</div>
+          <div class="leg"><div class="leg-dash" style="border-color:#a8b0d080"></div>납입원금(합계)</div>
+          <div class="leg"><div class="leg-line" style="background:#ff9f43;"></div>운용수익(합계)</div>
         </div>
       </div>
     </div>
@@ -165,19 +174,21 @@ footer p{font-size:11px;color:var(--text3);font-family:var(--mono);}
     <div class="section-header">
       <span>🏦</span><span class="section-title">계좌별 흐름</span><div class="section-line"></div>
     </div>
-    <div class="two-col" style="gap:16px;">
-      <div class="card">
-        <div class="card-header"><div><div class="card-title">연금저축펀드</div><div class="card-sub">2020.03 ~</div></div></div>
-        <div class="chart-wrap"><div class="h240"><canvas id="chart-pension"></canvas></div></div>
-      </div>
+    <!-- 연금저축: 전체 너비 -->
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-header"><div><div class="card-title">연금저축펀드</div><div class="card-sub">2020.03 ~</div></div></div>
+      <div class="chart-wrap"><div class="h240"><canvas id="chart-pension"></canvas></div></div>
+    </div>
+    <!-- IRP + DC: 좌우 -->
+    <div class="two-col">
       <div class="card">
         <div class="card-header"><div><div class="card-title">개인형 IRP</div><div class="card-sub">2020.05 ~</div></div></div>
         <div class="chart-wrap"><div class="h240"><canvas id="chart-irp"></canvas></div></div>
       </div>
-    </div>
-    <div style="margin-top:16px;" class="card">
-      <div class="card-header"><div><div class="card-title">DC</div><div class="card-sub">2026.02 ~</div></div></div>
-      <div class="chart-wrap"><div class="h240"><canvas id="chart-dc"></canvas></div></div>
+      <div class="card">
+        <div class="card-header"><div><div class="card-title">DC</div><div class="card-sub">2026.02 ~</div></div></div>
+        <div class="chart-wrap"><div class="h240"><canvas id="chart-dc"></canvas></div></div>
+      </div>
     </div>
   </div>
 
@@ -343,9 +354,9 @@ function renderSummary(){
   // 계좌별
   const totalForBar = te;
   [
-    {pre:'ap', p:d.pp, g:d.pg, e:d.pe, color:'#3b82f6'},
-    {pre:'ai', p:d.ip, g:d.ig, e:d.ie, color:'#10b981'},
-    {pre:'ad', p:d.dp, g:d.dg, e:d.de, color:'#f59e0b'},
+    {pre:'ap', p:d.pp, g:d.pg, e:d.pe, color:'#60a5fa'},
+    {pre:'ai', p:d.ip, g:d.ig, e:d.ie, color:'#4ade80'},
+    {pre:'ad', p:d.dp, g:d.dg, e:d.de, color:'#ffd166'},
   ].forEach(a=>{
     document.getElementById(a.pre+'-p').textContent=fmtFull(a.p);
     document.getElementById(a.pre+'-e').textContent=fmtFull(a.e);
@@ -378,12 +389,12 @@ function renderMainChart(){
     data:{
       labels,
       datasets:[
-        {label:'연금저축',data:sliced.map(d=>d.pe),backgroundColor:'#3b82f666',borderColor:'#3b82f6',borderWidth:1,stack:'eval',order:2},
-        {label:'개인형IRP',data:sliced.map(d=>d.ie),backgroundColor:'#10b98166',borderColor:'#10b981',borderWidth:1,stack:'eval',order:2},
-        {label:'DC',data:sliced.map(d=>d.de||0),backgroundColor:'#f59e0b66',borderColor:'#f59e0b',borderWidth:1,stack:'eval',order:2},
-        {type:'line',label:'납입원금',data:sliced.map(d=>d.tp),borderColor:'#ffffff50',borderWidth:1.5,borderDash:[4,3],pointRadius:0,fill:false,stack:undefined,order:1},
-        {type:'line',label:'운용수익',data:sliced.map(d=>d.tg),borderColor:sliced.map(d=>d.tg>=0?'#10b981':'#ef4444')[0]||'#10b981',
-          segment:{borderColor:ctx2=>ctx2.p0.parsed.y>=0?'#10b981':'#ef4444'},
+        {label:'연금저축',data:sliced.map(d=>d.pe),backgroundColor:'#3b82f666',borderColor:'#60a5fa',borderWidth:1,stack:'eval',order:2},
+        {label:'개인형IRP',data:sliced.map(d=>d.ie),backgroundColor:'#10b98166',borderColor:'#4ade80',borderWidth:1,stack:'eval',order:2},
+        {label:'DC',data:sliced.map(d=>d.de||0),backgroundColor:'#f59e0b66',borderColor:'#ffd166',borderWidth:1,stack:'eval',order:2},
+        {type:'line',label:'납입원금',data:sliced.map(d=>d.tp),borderColor:'#b0b8d860',borderWidth:1.5,borderDash:[4,3],pointRadius:0,fill:false,stack:undefined,order:1},
+        {type:'line',label:'운용수익',data:sliced.map(d=>d.tg),borderColor:sliced.map(d=>d.tg>=0?'#4ade80':'#ef4444')[0]||'#4ade80',
+          segment:{borderColor:ctx2=>ctx2.p0.parsed.y>=0?'#4ade80':'#ef4444'},
           borderWidth:2,pointRadius:0,fill:false,stack:undefined,order:0},
       ]
     },
@@ -430,13 +441,13 @@ function makeAcctChart(canvasId, evalData, principalData, labels, color){
 
 function renderAcctCharts(){
   const labels=DATA.map(d=>d.lbl);
-  pensionChart=makeAcctChart('chart-pension',DATA.map(d=>d.pe),DATA.map(d=>d.pp),labels,'#3b82f6');
+  pensionChart=makeAcctChart('chart-pension',DATA.map(d=>d.pe),DATA.map(d=>d.pp),labels,'#60a5fa');
   // IRP: 2020.05부터
   const irpData=DATA.map(d=>d.ie||null);
-  irpChart=makeAcctChart('chart-irp',irpData,DATA.map(d=>d.ip||null),labels,'#10b981');
+  irpChart=makeAcctChart('chart-irp',irpData,DATA.map(d=>d.ip||null),labels,'#4ade80');
   // DC: 2026.02부터
   const dcData=DATA.map(d=>d.lbl<'2026-02'?null:d.de);
-  dcChart=makeAcctChart('chart-dc',dcData,DATA.map(d=>d.lbl<'2026-02'?null:d.dp),labels,'#f59e0b');
+  dcChart=makeAcctChart('chart-dc',dcData,DATA.map(d=>d.lbl<'2026-02'?null:d.dp),labels,'#ffd166');
 }
 
 renderSummary();
