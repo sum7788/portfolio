@@ -87,10 +87,13 @@ main{max-width:1440px;margin:0 auto;padding:28px 40px 80px;}
 /* 2컬럼 */
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
 @media(max-width:800px){.two-col{grid-template-columns:1fr;}}
+@media(max-width:900px){#milestone-grid{grid-template-columns:repeat(5,1fr)!important;}}
+@media(max-width:600px){#milestone-grid{grid-template-columns:repeat(2,1fr)!important;}}
 
 /* 도넛 */
 .donut-wrap{height:280px;position:relative;}
 
+@keyframes pulse-border{0%,100%{box-shadow:0 0 0 0 #60a5fa44;}50%{box-shadow:0 0 0 6px #60a5fa00;}}
 footer{border-top:1px solid var(--border);padding:18px 40px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
 footer p{font-size:11px;color:var(--text3);font-family:var(--mono);}
 </style>
@@ -201,6 +204,34 @@ footer p{font-size:11px;color:var(--text3);font-family:var(--mono);}
     <div class="card">
       <div class="card-hdr"><div><div class="card-title">🩵 DC</div><div class="card-sub">📅 2026.02 ~</div></div></div>
       <div class="chart-wrap"><div class="h240"><canvas id="chart-dc"></canvas></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 마일스톤 섹션 -->
+<div class="section">
+  <div class="sec-hdr"><span>🎮</span><span class="sec-title">연금 레벨업 마일스톤</span><div class="sec-line"></div></div>
+  <div class="card">
+    <div class="card-hdr">
+      <div><div class="card-title">🏆 연금자산 성장 레벨</div><div class="card-sub">전체 평가금액 기준 달성 현황</div></div>
+      <div id="current-level-badge" style="font-family:var(--mono);font-size:12px;color:#12141c;background:var(--accent);padding:4px 12px;border-radius:20px;font-weight:700;"></div>
+    </div>
+    <div class="chart-wrap" style="padding:24px 28px;">
+      <!-- 진행바 -->
+      <div id="level-progress-wrap" style="margin-bottom:28px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <span id="lp-from" style="font-family:var(--mono);font-size:11px;color:var(--text2);"></span>
+          <span id="lp-pct" style="font-family:var(--mono);font-size:13px;font-weight:700;color:var(--accent);"></span>
+          <span id="lp-to" style="font-family:var(--mono);font-size:11px;color:var(--text2);"></span>
+        </div>
+        <div style="height:14px;background:var(--bg3);border-radius:7px;overflow:hidden;border:1px solid var(--border);">
+          <div id="lp-bar" style="height:100%;border-radius:7px;transition:width 1s ease;background:linear-gradient(90deg,var(--pension),var(--accent));"></div>
+        </div>
+        <div id="lp-desc" style="font-family:var(--mono);font-size:10px;color:var(--text3);margin-top:6px;text-align:center;"></div>
+      </div>
+      <!-- 레벨 카드 그리드 -->
+      <div id="milestone-grid" style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;">
+      </div>
     </div>
   </div>
 </div>
@@ -516,11 +547,99 @@ function renderAcctCharts() {
   makeAcctChart('chart-dc', DATA.map(d=>d.lbl<'2026-02'?null:d.de), DATA.map(d=>d.lbl<'2026-02'?null:d.dp), labels, '#60a5fa');
 }
 
+
+// ── 마일스톤 ──
+const MILESTONES = [
+  {lv:1,  target:10000000,   achieved:'2021-01', months:null},
+  {lv:2,  target:20000000,   achieved:'2021-12', months:11},
+  {lv:3,  target:40000000,   achieved:'2024-05', months:29},
+  {lv:4,  target:80000000,   achieved:'2025-10', months:17},
+  {lv:5,  target:160000000,  achieved:null, months:null},
+  {lv:6,  target:320000000,  achieved:null, months:null},
+  {lv:7,  target:640000000,  achieved:null, months:null},
+  {lv:8,  target:1280000000, achieved:null, months:null},
+  {lv:9,  target:2560000000, achieved:null, months:null},
+  {lv:10, target:5120000000, achieved:null, months:null},
+];
+
+const LV_COLORS = [
+  '#94a3b8','#60a5fa','#34d399','#ffd166','#fb923c',
+  '#f47272','#c084fc','#f472b6','#facc15','#e74c3c'
+];
+const LV_ICONS = ['🥉','🥈','🥇','🏅','⭐','🌟','💫','✨','👑','🔱'];
+
+function renderMilestones() {
+  const lastData = DATA[DATA.length-1];
+  const currentVal = lastData.te;
+
+  // 현재 레벨 파악
+  let currentLv = 0;
+  for (const m of MILESTONES) {
+    if (currentVal >= m.target) currentLv = m.lv;
+  }
+  const nextM = MILESTONES.find(m => m.lv === currentLv + 1);
+  const currM = MILESTONES.find(m => m.lv === currentLv);
+
+  // 뱃지
+  const badge = document.getElementById('current-level-badge');
+  if (badge) badge.textContent = currentLv > 0 ? `${LV_ICONS[currentLv-1]} Lv.${currentLv} 달성!` : 'Lv.0 시작!';
+
+  // 진행바
+  if (nextM) {
+    const fromVal = currM ? currM.target : 0;
+    const pct = Math.min(100, ((currentVal - fromVal) / (nextM.target - fromVal) * 100));
+    document.getElementById('lp-from').textContent = currM ? `Lv.${currM.lv} ${(fromVal/1e8).toFixed(1)}억` : '시작';
+    document.getElementById('lp-to').textContent = `Lv.${nextM.lv} ${nextM.target>=1e8?(nextM.target/1e8).toFixed(0)+'억':(nextM.target/1e4).toFixed(0)+'만'}`;
+    document.getElementById('lp-pct').textContent = pct.toFixed(1) + '%';
+    document.getElementById('lp-bar').style.width = pct + '%';
+    const remain = nextM.target - currentVal;
+    document.getElementById('lp-desc').textContent =
+      `다음 레벨까지 ${remain>=1e8?(remain/1e8).toFixed(2)+'억':(remain/1e4).toFixed(0)+'만원'} 남았어요 🚀`;
+  } else {
+    document.getElementById('lp-from').textContent = '최고 레벨 달성!';
+    document.getElementById('lp-pct').textContent = '100%';
+    document.getElementById('lp-bar').style.width = '100%';
+    document.getElementById('lp-to').textContent = '🔱 MAX';
+    document.getElementById('lp-desc').textContent = '모든 레벨을 달성했습니다! 🎊';
+  }
+
+  // 레벨 카드 그리드
+  const grid = document.getElementById('milestone-grid');
+  if (!grid) return;
+  grid.innerHTML = MILESTONES.map(m => {
+    const done = m.achieved !== null;
+    const isCurrent = m.lv === currentLv;
+    const isNext = m.lv === currentLv + 1;
+    const color = LV_COLORS[m.lv-1];
+    const icon = LV_ICONS[m.lv-1];
+    const targetStr = m.target >= 1e8 ? (m.target/1e8).toFixed(0)+'억' : (m.target/1e4).toFixed(0)+'만';
+
+    return `<div style="
+      background:${done ? 'var(--bg3)' : 'var(--bg)'};
+      border:2px solid ${isCurrent ? color : done ? color+'66' : 'var(--border)'};
+      border-radius:12px;padding:14px 12px;text-align:center;
+      position:relative;overflow:hidden;
+      transition:all .3s;
+      ${isNext ? 'animation:pulse-border 2s infinite;' : ''}
+      opacity:${done ? '1' : '0.5'};
+    ">
+      ${isCurrent ? `<div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,${color},${color}88);"></div>` : ''}
+      <div style="font-size:22px;margin-bottom:4px;">${done ? icon : '🔒'}</div>
+      <div style="font-family:var(--mono);font-size:11px;font-weight:700;color:${done?color:'var(--text3)'};">Lv.${m.lv}</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--text2);margin:4px 0;">${targetStr}</div>
+      ${done ? `
+        <div style="font-size:9px;font-family:var(--mono);color:var(--text3);margin-top:4px;">${m.achieved}</div>
+        ${m.months ? `<div style="font-size:9px;font-family:var(--mono);color:${color};margin-top:2px;">+${m.months}개월</div>` : '<div style="font-size:9px;font-family:var(--mono);color:'+color+';margin-top:2px;">🎯 시작</div>'}
+      ` : `<div style="font-size:9px;font-family:var(--mono);color:var(--text3);margin-top:4px;">미달성</div><div style="height:14px;"></div>`}
+    </div>`;
+  }).join('');
+}
 renderSummary();
 renderMainChart();
 renderDonutAcct();
 renderDonutPnl();
 renderAcctCharts();
+renderMilestones();
 </script>
 </body>
 </html>
