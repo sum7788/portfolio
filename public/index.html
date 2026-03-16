@@ -97,9 +97,9 @@ footer a{color:var(--text2);text-decoration:none;}
       <div class="sum-sub" id="total-pnl-pct">—</div>
     </div>
     <div class="sum-card">
-      <div class="sum-label">오늘 손익</div>
+      <div class="sum-label">전일 대비 손익</div>
       <div class="sum-value" id="today-pnl">로딩중...</div>
-      <div class="sum-sub" id="today-pnl-sub">전일 대비</div>
+      <div class="sum-sub" id="today-pnl-sub">어제 종가 기준</div>
     </div>
   </div>
 
@@ -242,6 +242,7 @@ async function loadAllData(){
         const closes=res.indicators.quote[0].close;
         results[i]={ts:res.timestamp,closes,p};
         const validCloses=closes.filter(v=>v!=null);
+        // 마지막 종가 사용 (Yahoo Finance는 확정 종가만 반환하므로 안전)
         if(validCloses.length) latestPrices[p.ticker]=validCloses[validCloses.length-1];
       }
     }catch{}
@@ -326,12 +327,18 @@ function renderSummary(){
   const pe=document.getElementById('total-pnl');
   pe.textContent=(up?'+':'')+Math.round(pnl).toLocaleString()+'원'; pe.className='sum-value '+(up?'up':'dn');
   document.getElementById('total-pnl-pct').textContent=(up?'▲ ':'▼ ')+Math.abs(pnlPct).toFixed(2)+'%';
-  if(portfolioVals&&portfolioVals.length>=2){
-    const td=portfolioVals[portfolioVals.length-1],ye=portfolioVals[portfolioVals.length-2];
-    const tp=td-ye, tu=tp>=0;
+  // 전일 대비: 확정된 종가 기준 (마지막-1 vs 마지막-2)
+  // 당일 데이터는 장중에 0이 될 수 있으므로 제외
+  if(portfolioVals&&portfolioVals.length>=3){
+    const ye=portfolioVals[portfolioVals.length-2];  // 어제 종가
+    const dy=portfolioVals[portfolioVals.length-3];  // 그제 종가
+    const tp=ye-dy, tu=tp>=0;
     const te=document.getElementById('today-pnl');
     te.textContent=(tu?'+':'')+Math.round(tp).toLocaleString()+'원'; te.className='sum-value '+(tu?'up':'dn');
-    document.getElementById('today-pnl-sub').textContent=(tu?'▲ ':'▼ ')+Math.abs((tp/ye*100)).toFixed(2)+'%';
+    document.getElementById('today-pnl-sub').textContent=(tu?'▲ ':'▼ ')+Math.abs((tp/dy*100)).toFixed(2)+'% (전일 종가 기준)';
+  } else {
+    document.getElementById('today-pnl').textContent = 'N/A';
+    document.getElementById('today-pnl-sub').textContent = '데이터 부족';
   }
 }
 
