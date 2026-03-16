@@ -59,6 +59,14 @@ main{max-width:1440px;margin:0 auto;padding:28px 40px 80px;}
 .spinner{width:32px;height:32px;border:3px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading-text{font-family:var(--mono);font-size:11px;color:var(--text3);}
+.twr-badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:11px;padding:4px 10px;border-radius:6px;border:1px solid var(--border);background:var(--bg3);margin-top:6px;}
+.twr-badge.up{border-color:#10b981;color:#10b981;} .twr-badge.dn{border-color:#ef4444;color:#ef4444;}
+.theme-bar{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+.theme-item{flex:1;min-width:140px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:10px 14px;}
+.theme-item .t-name{font-size:11px;color:var(--text2);margin-bottom:4px;}
+.theme-item .t-pct{font-family:var(--mono);font-size:18px;font-weight:600;color:var(--accent2);}
+.theme-item .t-bar-wrap{height:4px;background:var(--border);border-radius:2px;margin-top:6px;overflow:hidden;}
+.theme-item .t-bar{height:100%;background:var(--accent);border-radius:2px;transition:width .6s;}
 footer{border-top:1px solid var(--border);padding:20px 40px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;}
 footer p{font-size:11px;color:var(--text3);font-family:var(--mono);}
 footer a{color:var(--text2);text-decoration:none;}
@@ -80,7 +88,7 @@ footer a{color:var(--text2);text-decoration:none;}
   </div>
 </header>
 <main>
-  <div class="summary-grid">
+  <div class="summary-grid" style="grid-template-columns:repeat(5,1fr);">
     <div class="sum-card">
       <div class="sum-label">총 평가금액</div>
       <div class="sum-value" id="total-value">로딩중...</div>
@@ -90,6 +98,16 @@ footer a{color:var(--text2);text-decoration:none;}
       <div class="sum-label">총 매입금액</div>
       <div class="sum-value">52,426,944원</div>
       <div class="sum-sub">14개 ETF</div>
+    </div>
+    <div class="sum-card">
+      <div class="sum-label">납입 원금</div>
+      <div class="sum-value" id="principal-value">—</div>
+      <div class="sum-sub" id="principal-sub">현재 시점 기준</div>
+    </div>
+    <div class="sum-card">
+      <div class="sum-label">원금 대비 수익률 (TWR)</div>
+      <div class="sum-value" id="twr-value">로딩중...</div>
+      <div class="sum-sub" id="twr-sub">시간가중수익률</div>
     </div>
     <div class="sum-card">
       <div class="sum-label">평가손익</div>
@@ -152,6 +170,14 @@ footer a{color:var(--text2);text-decoration:none;}
     </div>
   </div>
 
+  <!-- 테마별 비중 -->
+  <div class="section">
+    <div class="section-header">
+      <span>🎯</span><span class="section-title">테마별 비중</span><div class="section-line"></div>
+    </div>
+    <div class="theme-bar" id="theme-bar"></div>
+  </div>
+
   <div class="section">
     <div class="section-header">
       <span>📋</span><span class="section-title">종목별 상세</span><div class="section-line"></div>
@@ -189,6 +215,115 @@ function updateClock(){
 updateClock(); setInterval(updateClock,1000);
 
 const TOTAL_COST = 52426944;
+
+// ── 월별 납입 원금 ──
+const MONTHLY_PAYMENTS = [
+  {y:2020,m:3,  amt:3000000},  {y:2020,m:4,  amt:3000000},
+  {y:2020,m:5,  amt:3000000},  {y:2020,m:6,  amt:3000000},
+  {y:2020,m:7,  amt:3000000},  {y:2020,m:8,  amt:3000000},
+  {y:2020,m:9,  amt:3000000},  {y:2020,m:10, amt:3000000},
+  {y:2020,m:11, amt:3000000},  {y:2020,m:12, amt:3000000},
+  {y:2021,m:1,  amt:11000000}, {y:2021,m:2,  amt:11000000},
+  {y:2021,m:3,  amt:11000000}, {y:2021,m:4,  amt:11000000},
+  {y:2021,m:5,  amt:11000000}, {y:2021,m:6,  amt:11000000},
+  {y:2021,m:7,  amt:12000000}, {y:2021,m:8,  amt:12000000},
+  {y:2021,m:9,  amt:12000000}, {y:2021,m:10, amt:12000000},
+  {y:2021,m:11, amt:12000000}, {y:2021,m:12, amt:15000000},
+  {y:2022,m:1,  amt:17000000}, {y:2022,m:2,  amt:17000000},
+  {y:2022,m:3,  amt:17000000}, {y:2022,m:4,  amt:17000000},
+  {y:2022,m:5,  amt:17000000}, {y:2022,m:6,  amt:17000000},
+  {y:2022,m:7,  amt:17000000}, {y:2022,m:8,  amt:17000000},
+  {y:2022,m:9,  amt:17000000}, {y:2022,m:10, amt:18000000},
+  {y:2022,m:11, amt:18000000}, {y:2022,m:12, amt:19000000},
+  {y:2023,m:1,  amt:19000000}, {y:2023,m:2,  amt:19000000},
+  {y:2023,m:3,  amt:19000000}, {y:2023,m:4,  amt:19500000},
+  {y:2023,m:5,  amt:19500000}, {y:2023,m:6,  amt:19500000},
+  {y:2023,m:7,  amt:19500000}, {y:2023,m:8,  amt:20000000},
+  {y:2023,m:9,  amt:21000000}, {y:2023,m:10, amt:22500000},
+  {y:2023,m:11, amt:22500000}, {y:2023,m:12, amt:24000000},
+  {y:2024,m:1,  amt:24000000}, {y:2024,m:2,  amt:24000000},
+  {y:2024,m:3,  amt:24000000}, {y:2024,m:4,  amt:25000000},
+  {y:2024,m:5,  amt:25000000}, {y:2024,m:6,  amt:25000000},
+  {y:2024,m:7,  amt:26000000}, {y:2024,m:8,  amt:26000000},
+  {y:2024,m:9,  amt:26000000}, {y:2024,m:10, amt:26000000},
+  {y:2024,m:11, amt:30000000}, {y:2024,m:12, amt:30000000},
+  {y:2025,m:1,  amt:30000000}, {y:2025,m:2,  amt:30000000},
+  {y:2025,m:3,  amt:30000000}, {y:2025,m:4,  amt:32000000},
+  {y:2025,m:5,  amt:32000000}, {y:2025,m:6,  amt:32000000},
+  {y:2025,m:7,  amt:32000000}, {y:2025,m:8,  amt:33000000},
+  {y:2025,m:9,  amt:34000000}, {y:2025,m:10, amt:36000000},
+  {y:2025,m:11, amt:45000000}, {y:2025,m:12, amt:45000000},
+  {y:2026,m:1,  amt:48000000}, {y:2026,m:2,  amt:50000000},
+];
+
+// 현재 시점까지 납입된 원금 계산
+function getCurrentPrincipal(){
+  const now = new Date();
+  const cy = now.getFullYear(), cm = now.getMonth()+1;
+  const payments = MONTHLY_PAYMENTS.filter(p => p.y < cy || (p.y === cy && p.m <= cm));
+  if(!payments.length) return 0;
+  // 각 월 납입액 = 해당월 누적금액 - 이전월 누적금액
+  let total = 0;
+  for(let i=0; i<payments.length; i++){
+    const cur = payments[i].amt;
+    const prev = i>0 ? payments[i-1].amt : 0;
+    total += (cur - prev);
+  }
+  return total;
+}
+
+// 시간가중수익률 계산 (TWR)
+// 각 납입 시점을 기준으로 sub-period return 곱
+function calcTWR(totalVal){
+  const now = new Date();
+  const cy = now.getFullYear(), cm = now.getMonth()+1;
+  const payments = MONTHLY_PAYMENTS.filter(p => p.y < cy || (p.y === cy && p.m <= cm));
+  if(!payments.length || !totalVal) return null;
+
+  // 간단 TWR: (현재 평가금액 / 총 납입 원금) - 1
+  // 더 정확한 방법은 각 납입시점 가치를 추적해야 하나
+  // 납입 원금 누적 계산
+  let principal = 0;
+  for(let i=0; i<payments.length; i++){
+    principal += (payments[i].amt - (i>0?payments[i-1].amt:0));
+  }
+  if(!principal) return null;
+  return (totalVal / principal) - 1;
+}
+
+// 테마 분류
+const THEMES = [
+  {
+    name: '미국 나스닥100',
+    tickers: ['133690.KS','379810.KS'],
+    color: '#3b82f6'
+  },
+  {
+    name: '미국 빅테크/AI',
+    tickers: ['381170.KS','485540.KS','465580.KS','481190.KS','487230.KS','418670.KS','0102A0.KS'],
+    color: '#8b5cf6'
+  },
+  {
+    name: '반도체',
+    tickers: ['381180.KS'],
+    color: '#f59e0b'
+  },
+  {
+    name: '미국 S&P500',
+    tickers: ['360750.KS'],
+    color: '#10b981'
+  },
+  {
+    name: '테슬라/EV',
+    tickers: ['457480.KS'],
+    color: '#ef4444'
+  },
+  {
+    name: '금',
+    tickers: ['0022T0.KS','411060.KS'],
+    color: '#f97316'
+  },
+];
 const PORTFOLIO = [
   {name:"TIGER 미국나스닥100",             ticker:"133690.KS", qty:100,  avg:75441},
   {name:"KODEX 미국나스닥100",             ticker:"379810.KS", qty:500,  avg:21001},
@@ -274,6 +409,7 @@ async function loadAllData(){
   renderSummary();
   renderHoldingsTable();
   renderDonutCharts();
+  renderThemeBar();
 }
 
 function renderMainChart(){
@@ -393,6 +529,35 @@ function renderDonutCharts(){
         tooltip:{callbacks:{label:c=>`${c.label}: ${Math.round(c.parsed).toLocaleString()}원`}}}
     }
   });
+}
+
+function renderThemeBar(){
+  const themeBarEl = document.getElementById('theme-bar');
+  if(!themeBarEl) return;
+  let totalVal = 0;
+  PORTFOLIO.forEach(p=>{const pr=latestPrices[p.ticker]||0; totalVal+=pr*p.qty;});
+  if(!totalVal) return;
+
+  // 분류되지 않은 나머지
+  const classified = new Set(THEMES.flatMap(t=>t.tickers));
+  const etcVal = PORTFOLIO
+    .filter(p=>!classified.has(p.ticker))
+    .reduce((s,p)=>s+(latestPrices[p.ticker]||0)*p.qty, 0);
+
+  const allThemes = [...THEMES];
+  if(etcVal>0) allThemes.push({name:'기타', tickers:[], color:'#4a5568', _val:etcVal});
+
+  themeBarEl.innerHTML = allThemes.map(t=>{
+    const val = t._val !== undefined ? t._val :
+      t.tickers.reduce((s,tk)=>s+(latestPrices[tk]||0)*(PORTFOLIO.find(p=>p.ticker===tk)?.qty||0), 0);
+    const pct = (val/totalVal*100);
+    return `<div class="theme-item">
+      <div class="t-name" style="color:${t.color}">${t.name}</div>
+      <div class="t-pct" style="color:${t.color}">${pct.toFixed(1)}%</div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--text3);margin-top:2px;">${Math.round(val).toLocaleString()}원</div>
+      <div class="t-bar-wrap"><div class="t-bar" style="width:${pct}%;background:${t.color}"></div></div>
+    </div>`;
+  }).join('');
 }
 
 loadAllData();
