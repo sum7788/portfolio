@@ -118,7 +118,7 @@ footer p{font-size:11px;color:var(--text3);font-family:var(--mono);}
   <div class="sum-card"><div class="sum-label">🏦 납입 원금</div><div class="sum-value" id="sv-principal">—</div><div class="sum-sub">3개 계좌 합산</div></div>
   <div class="sum-card"><div class="sum-label">📈 원금 대비 수익</div><div class="sum-value" id="sv-profit">—</div><div class="sum-sub" id="ss-profit">—</div></div>
   <div class="sum-card"><div class="sum-label">🎯 단순 수익률</div><div class="sum-value" id="sv-twr">—</div><div class="sum-sub">납입원금 기준</div></div>
-  <div class="sum-card"><div class="sum-label">🔄 전월 대비 손익</div><div class="sum-value" id="sv-mom">—</div><div class="sum-sub" id="ss-mom">—</div></div>
+  <div class="sum-card"><div class="sum-label">🔄 전월 대비 증감</div><div class="sum-value" id="sv-mom">—</div><div class="sum-sub" id="ss-mom">—</div></div>
   <div class="sum-card"><div class="sum-label">📅 연금 누적 투자일</div><div class="sum-value" id="sv-days">—</div><div class="sum-sub">연금저축 2020.03 기준</div></div>
 </div>
 
@@ -348,11 +348,15 @@ function renderSummary() {
   const endDate = new Date(ly, lm-1, 1);
   const today = new Date();
   const diffMs = today - startDate;
-  const diffDays = Math.floor(diffMs / (1000*60*60*24));
-  const totalMonths = (ly-2020)*12 + (lm-3);
-  const yy = Math.floor(totalMonths/12), mm = totalMonths%12;
-  document.getElementById('sv-days').textContent = (yy>0?yy+'년 ':'')+mm+'개월';
-  document.getElementById('sv-days').nextElementSibling.textContent = diffDays.toLocaleString()+'일째 운용중';
+  const totalDays = Math.floor(diffMs / (1000*60*60*24));
+  // 년/월/일 계산
+  let ty = today.getFullYear(), tmo = today.getMonth(), td = today.getDate();
+  let sy2 = 2020, smo2 = 2, sd2 = 2; // 2020-03-02
+  let dy2 = ty - sy2, dmo2 = tmo - smo2, dd2 = td - sd2;
+  if (dd2 < 0) { dmo2--; dd2 += new Date(ty, tmo, 0).getDate(); }
+  if (dmo2 < 0) { dy2--; dmo2 += 12; }
+  document.getElementById('sv-days').textContent = (dy2>0?dy2+'년 ':'')+dmo2+'개월 '+dd2+'일';
+  document.getElementById('sv-days').nextElementSibling.textContent = totalDays.toLocaleString()+'일째 운용중';
 
   // 운용 기간
   document.getElementById('dur-pension').textContent = calcDur(2020, 3);
