@@ -4,18 +4,20 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>수미숨 연금 자산 대시보드</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Nanum+Gothic:wght@400;700;800&family=Nanum+Gothic+Coding:wght@400;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
 :root{
   --bg:#12141c;--bg2:#1a1d2e;--bg3:#22263a;
   --border:#2d3250;--border2:#3d4470;
   --text:#f0f2ff;--text2:#b0b8d8;--text3:#6878a8;
-  --green:#4ade80;--red:#ff6b8a;--yellow:#ffd166;
+  --green:#4ade80;--red:#e03e52;--yellow:#ffd166;
   --blue:#60a5fa;--orange:#ff9f43;--purple:#c084fc;
   --accent:#60a5fa;--accent2:#93c5fd;
-  --pension:#60a5fa;--irp:#4ade80;--dc:#ffd166;
-  --mono:'IBM Plex Mono',monospace;--sans:'Noto Sans KR',sans-serif;
+  --pension:#ff7096;--irp:#ffd166;--dc:#60a5fa;
+  --profit-up:#c0392b;--profit-dn:#1a5fa8;--principal:#6878a8;
+  --mono:'Nanum Gothic Coding',monospace;
+  --sans:'Nanum Gothic',sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;}
@@ -392,7 +394,7 @@ function renderMainChart(){
         {label:'연금저축',data:sliced.map(d=>d.pe),backgroundColor:'#3b82f666',borderColor:'#60a5fa',borderWidth:1,stack:'eval',order:2},
         {label:'개인형IRP',data:sliced.map(d=>d.ie),backgroundColor:'#10b98166',borderColor:'#4ade80',borderWidth:1,stack:'eval',order:2},
         {label:'DC',data:sliced.map(d=>d.de||0),backgroundColor:'#f59e0b66',borderColor:'#ffd166',borderWidth:1,stack:'eval',order:2},
-        {type:'line',label:'납입원금',data:sliced.map(d=>d.tp),borderColor:'#b0b8d860',borderWidth:1.5,borderDash:[4,3],pointRadius:0,fill:false,stack:undefined,order:1},
+        {type:'line',label:'납입원금',data:sliced.map(d=>d.tp),borderColor:'#4a5270',borderWidth:1.5,borderDash:[4,3],pointRadius:0,fill:false,stack:undefined,order:1},
         {type:'line',label:'운용수익',data:sliced.map(d=>d.tg),borderColor:sliced.map(d=>d.tg>=0?'#4ade80':'#ef4444')[0]||'#4ade80',
           segment:{borderColor:ctx2=>ctx2.p0.parsed.y>=0?'#4ade80':'#ef4444'},
           borderWidth:2,pointRadius:0,fill:false,stack:undefined,order:0},
@@ -441,13 +443,13 @@ function makeAcctChart(canvasId, evalData, principalData, labels, color){
 
 function renderAcctCharts(){
   const labels=DATA.map(d=>d.lbl);
-  pensionChart=makeAcctChart('chart-pension',DATA.map(d=>d.pe),DATA.map(d=>d.pp),labels,'#60a5fa');
+  pensionChart=makeAcctChart('chart-pension',DATA.map(d=>d.pe),DATA.map(d=>d.pp),labels,'#ff7096');
   // IRP: 2020.05부터
   const irpData=DATA.map(d=>d.ie||null);
-  irpChart=makeAcctChart('chart-irp',irpData,DATA.map(d=>d.ip||null),labels,'#4ade80');
+  irpChart=makeAcctChart('chart-irp',irpData,DATA.map(d=>d.ip||null),labels,'#ffd166');
   // DC: 2026.02부터
   const dcData=DATA.map(d=>d.lbl<'2026-02'?null:d.de);
-  dcChart=makeAcctChart('chart-dc',dcData,DATA.map(d=>d.lbl<'2026-02'?null:d.dp),labels,'#ffd166');
+  dcChart=makeAcctChart('chart-dc',dcData,DATA.map(d=>d.lbl<'2026-02'?null:d.dp),labels,'#60a5fa');
 }
 
 renderSummary();
