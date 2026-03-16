@@ -663,13 +663,30 @@ function renderMilestones() {
           ${isCurrent ? `<span style="font-size:10px;background:${color};color:#12141c;padding:1px 7px;border-radius:10px;font-family:var(--mono);font-weight:700;">현재</span>` : ''}
           ${isNext ? `<span style="font-size:10px;background:var(--bg2);color:${color};border:1px solid ${color};padding:1px 7px;border-radius:10px;font-family:var(--mono);">NEXT</span>` : ''}
         </div>
-        ${done ? `
+        ${(()=>{
+        if(!done) return `
+          <div style="font-family:var(--mono);font-size:12px;color:var(--text3);">미달성</div>
+          <div style="font-family:var(--mono);font-size:11px;color:var(--text3);margin-top:2px;">🔒 잠금</div>`;
+        // 달성 시점 데이터 찾기
+        const rec = DATA.find(d=>d.lbl===m.achieved);
+        const pPct = rec ? Math.round(rec.tp/rec.te*100) : null;
+        const gPct = rec ? Math.round(rec.tg/rec.te*100) : null;
+        const gUp  = rec ? rec.tg >= 0 : true;
+        return `
           <div style="font-family:var(--mono);font-size:12px;color:var(--text2);">${achievedLabel} 달성</div>
           <div style="font-family:var(--mono);font-size:11px;color:${color};margin-top:2px;">⏱ ${monthsLabel}</div>
-        ` : `
-          <div style="font-family:var(--mono);font-size:12px;color:var(--text3);">미달성</div>
-          <div style="font-family:var(--mono);font-size:11px;color:var(--text3);margin-top:2px;">🔒 잠금</div>
-        `}
+          ${rec ? `
+          <div style="margin-top:8px;">
+            <div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;color:var(--text3);margin-bottom:3px;">
+              <span>💵 원금 ${pPct}%</span>
+              <span style="color:${gUp?'#fb923c':'#38bdf8'};">${gUp?'📈':'📉'} 수익 ${gPct}%</span>
+            </div>
+            <div style="height:6px;border-radius:3px;overflow:hidden;background:var(--border);display:flex;">
+              <div style="width:${pPct}%;background:#6878a8;border-radius:3px 0 0 3px;transition:width .8s;"></div>
+              <div style="width:${Math.abs(gPct)}%;background:${gUp?'#fb923c':'#38bdf8'};border-radius:0 3px 3px 0;transition:width .8s;"></div>
+            </div>
+          </div>` : ''}`;
+      })()}
       </div>
     </div>`;
   }).join('');
