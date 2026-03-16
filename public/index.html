@@ -87,8 +87,7 @@ main{max-width:1440px;margin:0 auto;padding:28px 40px 80px;}
 /* 2컬럼 */
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
 @media(max-width:800px){.two-col{grid-template-columns:1fr;}}
-@media(max-width:900px){#milestone-grid{grid-template-columns:repeat(5,1fr)!important;}}
-@media(max-width:600px){#milestone-grid{grid-template-columns:repeat(2,1fr)!important;}}
+@media(max-width:600px){#milestone-grid{grid-template-columns:1fr!important;}}
 
 /* 도넛 */
 .donut-wrap{height:280px;position:relative;}
@@ -230,7 +229,7 @@ footer p{font-size:11px;color:var(--text3);font-family:var(--mono);}
         <div id="lp-desc" style="font-family:var(--mono);font-size:10px;color:var(--text3);margin-top:6px;text-align:center;"></div>
       </div>
       <!-- 레벨 카드 그리드 -->
-      <div id="milestone-grid" style="display:grid;grid-template-columns:repeat(5,1fr);gap:10px;">
+      <div id="milestone-grid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;">
       </div>
     </div>
   </div>
@@ -550,7 +549,7 @@ function renderAcctCharts() {
 
 // ── 마일스톤 ──
 const MILESTONES = [
-  {lv:1,  target:10000000,   achieved:'2021-01', months:null},
+  {lv:1,  target:10000000,   achieved:'2021-01', months:11},
   {lv:2,  target:20000000,   achieved:'2021-12', months:11},
   {lv:3,  target:40000000,   achieved:'2024-05', months:29},
   {lv:4,  target:80000000,   achieved:'2025-10', months:17},
@@ -614,23 +613,51 @@ function renderMilestones() {
     const icon = LV_ICONS[m.lv-1];
     const targetStr = m.target >= 1e8 ? (m.target/1e8).toFixed(0)+'억' : (m.target/1e4).toFixed(0)+'만';
 
+    const achievedLabel = m.achieved ? m.achieved.replace('-','년 ')+'월' : '';
+    const monthsLabel = m.months ? `${m.months}개월 소요` : '';
+
     return `<div style="
       background:${done ? 'var(--bg3)' : 'var(--bg)'};
-      border:2px solid ${isCurrent ? color : done ? color+'66' : 'var(--border)'};
-      border-radius:12px;padding:14px 12px;text-align:center;
+      border:2px solid ${isCurrent ? color : done ? color+'55' : 'var(--border)'};
+      border-radius:14px;padding:16px 18px;
       position:relative;overflow:hidden;
+      display:flex;align-items:center;gap:16px;
       transition:all .3s;
       ${isNext ? 'animation:pulse-border 2s infinite;' : ''}
-      opacity:${done ? '1' : '0.5'};
+      opacity:${done ? '1' : '0.45'};
     ">
-      ${isCurrent ? `<div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,${color},${color}88);"></div>` : ''}
-      <div style="font-size:22px;margin-bottom:4px;">${done ? icon : '🔒'}</div>
-      <div style="font-family:var(--mono);font-size:11px;font-weight:700;color:${done?color:'var(--text3)'};">Lv.${m.lv}</div>
-      <div style="font-family:var(--mono);font-size:10px;color:var(--text2);margin:4px 0;">${targetStr}</div>
-      ${done ? `
-        <div style="font-size:9px;font-family:var(--mono);color:var(--text3);margin-top:4px;">${m.achieved}</div>
-        ${m.months ? `<div style="font-size:9px;font-family:var(--mono);color:${color};margin-top:2px;">+${m.months}개월</div>` : '<div style="font-size:9px;font-family:var(--mono);color:'+color+';margin-top:2px;">🎯 시작</div>'}
-      ` : `<div style="font-size:9px;font-family:var(--mono);color:var(--text3);margin-top:4px;">미달성</div><div style="height:14px;"></div>`}
+      ${isCurrent ? `<div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,${color},${color}44);"></div>` : ''}
+      ${done && isCurrent ? `<div style="position:absolute;top:0;right:0;bottom:0;width:3px;background:linear-gradient(180deg,${color},${color}44);"></div>` : ''}
+
+      <!-- 뱃지 (좌측) -->
+      <div style="
+        width:60px;height:60px;border-radius:14px;
+        background:${done ? color+'22' : 'var(--bg2)'};
+        border:2px solid ${done ? color+'66' : 'var(--border)'};
+        display:flex;flex-direction:column;align-items:center;justify-content:center;
+        flex-shrink:0;gap:2px;
+      ">
+        <div style="font-size:26px;line-height:1;">${done ? icon : '🔒'}</div>
+        <div style="font-family:var(--mono);font-size:9px;font-weight:700;color:${done?color:'var(--text3)'};">Lv.${m.lv}</div>
+      </div>
+
+      <!-- 텍스트 (우측) -->
+      <div style="flex:1;min-width:0;">
+        <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:4px;">
+          <span style="font-family:var(--mono);font-size:16px;font-weight:700;color:${done?color:'var(--text3)'};">
+            ${m.target>=1e8?(m.target/1e8).toFixed(0)+'억':(m.target/1e4).toFixed(0)+'만'}원
+          </span>
+          ${isCurrent ? `<span style="font-size:10px;background:${color};color:#12141c;padding:1px 7px;border-radius:10px;font-family:var(--mono);font-weight:700;">현재</span>` : ''}
+          ${isNext ? `<span style="font-size:10px;background:var(--bg2);color:${color};border:1px solid ${color};padding:1px 7px;border-radius:10px;font-family:var(--mono);">NEXT</span>` : ''}
+        </div>
+        ${done ? `
+          <div style="font-family:var(--mono);font-size:12px;color:var(--text2);">${achievedLabel} 달성</div>
+          <div style="font-family:var(--mono);font-size:11px;color:${color};margin-top:2px;">⏱ ${monthsLabel}</div>
+        ` : `
+          <div style="font-family:var(--mono);font-size:12px;color:var(--text3);">미달성</div>
+          <div style="font-family:var(--mono);font-size:11px;color:var(--text3);margin-top:2px;">🔒 잠금</div>
+        `}
+      </div>
     </div>`;
   }).join('');
 }
