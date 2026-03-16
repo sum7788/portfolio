@@ -658,7 +658,7 @@ function renderMilestones() {
       <div style="flex:1;min-width:0;">
         <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:4px;">
           <span style="font-family:var(--mono);font-size:16px;font-weight:700;color:${done?color:'var(--text3)'};">
-            ${m.target>=1e8?(m.target/1e8).toFixed(0)+'억':(m.target/1e4).toFixed(0)+'만'}원
+            ${(()=>{const u=Math.floor(m.target/1e8),w=Math.floor((m.target%1e8)/1e4);return u===0?w.toLocaleString()+'만원':w===0?u.toLocaleString()+'억원':u.toLocaleString()+'억 '+w.toLocaleString()+'만원';})()}
           </span>
           ${isCurrent ? `<span style="font-size:10px;background:${color};color:#12141c;padding:1px 7px;border-radius:10px;font-family:var(--mono);font-weight:700;">현재</span>` : ''}
           ${isNext ? `<span style="font-size:10px;background:var(--bg2);color:${color};border:1px solid ${color};padding:1px 7px;border-radius:10px;font-family:var(--mono);">NEXT</span>` : ''}
