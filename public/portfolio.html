@@ -7,10 +7,19 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
-:root{--bg:#0a0b0e;--bg2:#10131a;--bg3:#161b26;--border:#1e2535;--border2:#2a3347;--text:#e2e8f0;--text2:#8896a8;--text3:#4a5568;--green:#10b981;--red:#ef4444;--yellow:#f59e0b;--accent:#3b82f6;--accent2:#60a5fa;--mono:'IBM Plex Mono',monospace;--sans:'Noto Sans KR',sans-serif;}
+:root{
+  --bg:#12141c;--bg2:#1a1d2e;--bg3:#22263a;
+  --border:#2d3250;--border2:#3d4470;
+  --text:#f0f2ff;--text2:#b0b8d8;--text3:#6878a8;
+  --green:#4ade80;--red:#ff6b8a;--yellow:#ffd166;
+  --blue:#60a5fa;--orange:#ff9f43;--purple:#c084fc;
+  --accent:#60a5fa;--accent2:#93c5fd;
+  --pension:#60a5fa;--irp:#4ade80;--dc:#ffd166;
+  --mono:'IBM Plex Mono',monospace;--sans:'Noto Sans KR',sans-serif;
+}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);color:var(--text);font-family:var(--sans);min-height:100vh;}
-header{padding:20px 40px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
+header{padding:22px 40px;border-bottom:1px solid var(--border);background:var(--bg2);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;}
 .logo{display:flex;align-items:center;gap:14px;}
 .logo img{height:52px;width:auto;}
 .logo-text h1{font-size:18px;font-weight:700;letter-spacing:-.03em;}
@@ -26,45 +35,45 @@ main{max-width:1440px;margin:0 auto;padding:28px 40px 80px;}
 .sum-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:28px;}
 @media(max-width:1100px){.sum-grid{grid-template-columns:repeat(3,1fr);}}
 @media(max-width:680px){.sum-grid{grid-template-columns:repeat(2,1fr);}}
-.sum-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px 18px;}
-.sum-label{font-family:var(--mono);font-size:10px;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px;}
-.sum-value{font-family:var(--mono);font-size:17px;font-weight:600;line-height:1.2;}
+.sum-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:18px 20px;transition:border-color .2s;}.sum-card:hover{border-color:var(--border2);}
+.sum-label{font-family:var(--mono);font-size:10px;color:var(--text2);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px;}
+.sum-value{font-family:var(--mono);font-size:18px;font-weight:700;line-height:1.2;}
 .sum-value.up{color:var(--green);} .sum-value.dn{color:var(--red);}
 .sum-sub{font-family:var(--mono);font-size:10px;color:var(--text3);margin-top:4px;}
 
 /* 계좌별 카드 */
 .acct-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:28px;}
 @media(max-width:900px){.acct-grid{grid-template-columns:1fr;}}
-.acct-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px 20px;}
+.acct-card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:20px 22px;transition:border-color .2s;}.acct-card:hover{border-color:var(--border2);}
 .acct-name{font-size:13px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
 .acct-dot{width:10px;height:10px;border-radius:50%;}
-.acct-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid var(--border);}
+.acct-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);}
 .acct-row:last-child{border-bottom:none;}
-.acct-key{font-family:var(--mono);font-size:10px;color:var(--text3);}
-.acct-val{font-family:var(--mono);font-size:12px;font-weight:600;}
+.acct-key{font-family:var(--mono);font-size:11px;color:var(--text2);}
+.acct-val{font-family:var(--mono);font-size:13px;font-weight:700;}
 .acct-bar-wrap{height:4px;background:var(--border);border-radius:2px;margin-top:10px;overflow:hidden;}
 .acct-bar{height:100%;border-radius:2px;transition:width .8s;}
 
 /* 섹션 */
 .section{margin-bottom:36px;}
 .section-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);}
-.section-title{font-size:13px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--text2);font-family:var(--mono);}
-.section-line{flex:1;height:1px;background:linear-gradient(to right,var(--border2),transparent);}
+.section-title{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text2);font-family:var(--mono);}
+.section-line{flex:1;height:1px;background:linear-gradient(to right,var(--border2),transparent);margin-left:4px;}
 
 /* 카드 */
-.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
-.card-header{padding:13px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
-.card-title{font-size:12px;font-weight:600;}
-.card-sub{font-size:10px;color:var(--text3);font-family:var(--mono);margin-top:1px;}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:border-color .2s;}.card:hover{border-color:var(--border2);}
+.card-header{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.card-title{font-size:13px;font-weight:700;letter-spacing:-.01em;}
+.card-sub{font-size:11px;color:var(--text2);font-family:var(--mono);margin-top:2px;}
 .chart-wrap{padding:20px;}
 .h380{height:380px;position:relative;}
 .h240{height:240px;position:relative;}
 
 /* 탭 */
 .tabs{display:flex;gap:4px;}
-.tab{font-family:var(--mono);font-size:10px;padding:3px 9px;border-radius:4px;border:1px solid var(--border);background:transparent;color:var(--text3);cursor:pointer;transition:all .15s;}
+.tab{font-family:var(--mono);font-size:10px;padding:4px 10px;border-radius:6px;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s;}
 .tab:hover{color:var(--text2);border-color:var(--border2);}
-.tab.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+.tab.active{background:var(--accent);color:#12141c;font-weight:700;border-color:var(--accent);}
 
 /* 범례 */
 .legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;}
@@ -112,28 +121,28 @@ footer p{font-size:11px;color:var(--text3);font-family:var(--mono);}
   <!-- 계좌별 현황 -->
   <div class="acct-grid">
     <div class="acct-card">
-      <div class="acct-name"><div class="acct-dot" style="background:#3b82f6"></div>연금저축펀드<span style="font-family:var(--mono);font-size:10px;color:var(--text3);margin-left:auto;" id="dur-pension"></span></div>
+      <div class="acct-name"><div class="acct-dot" style="background:var(--pension)"></div>연금저축펀드<span style="font-family:var(--mono);font-size:10px;color:var(--text3);margin-left:auto;" id="dur-pension"></span></div>
       <div class="acct-row"><span class="acct-key">납입 원금</span><span class="acct-val" id="ap-p">—</span></div>
       <div class="acct-row"><span class="acct-key">월말 평가금액</span><span class="acct-val" id="ap-e">—</span></div>
       <div class="acct-row"><span class="acct-key">운용 수익</span><span class="acct-val" id="ap-g">—</span></div>
       <div class="acct-row"><span class="acct-key">수익률</span><span class="acct-val" id="ap-r">—</span></div>
-      <div class="acct-bar-wrap"><div class="acct-bar" id="ap-bar" style="background:#3b82f6"></div></div>
+      <div class="acct-bar-wrap"><div class="acct-bar" id="ap-bar" style="background:var(--pension)"></div></div>
     </div>
     <div class="acct-card">
-      <div class="acct-name"><div class="acct-dot" style="background:#10b981"></div>개인형 IRP<span style="font-family:var(--mono);font-size:10px;color:var(--text3);margin-left:auto;" id="dur-irp"></span></div>
+      <div class="acct-name"><div class="acct-dot" style="background:var(--irp)"></div>개인형 IRP<span style="font-family:var(--mono);font-size:10px;color:var(--text3);margin-left:auto;" id="dur-irp"></span></div>
       <div class="acct-row"><span class="acct-key">납입 원금</span><span class="acct-val" id="ai-p">—</span></div>
       <div class="acct-row"><span class="acct-key">월말 평가금액</span><span class="acct-val" id="ai-e">—</span></div>
       <div class="acct-row"><span class="acct-key">운용 수익</span><span class="acct-val" id="ai-g">—</span></div>
       <div class="acct-row"><span class="acct-key">수익률</span><span class="acct-val" id="ai-r">—</span></div>
-      <div class="acct-bar-wrap"><div class="acct-bar" id="ai-bar" style="background:#10b981"></div></div>
+      <div class="acct-bar-wrap"><div class="acct-bar" id="ai-bar" style="background:var(--irp)"></div></div>
     </div>
     <div class="acct-card">
-      <div class="acct-name"><div class="acct-dot" style="background:#f59e0b"></div>DC<span style="font-family:var(--mono);font-size:10px;color:var(--text3);margin-left:auto;" id="dur-dc"></span></div>
+      <div class="acct-name"><div class="acct-dot" style="background:var(--dc)"></div>DC<span style="font-family:var(--mono);font-size:10px;color:var(--text3);margin-left:auto;" id="dur-dc"></span></div>
       <div class="acct-row"><span class="acct-key">납입 원금</span><span class="acct-val" id="ad-p">—</span></div>
       <div class="acct-row"><span class="acct-key">월말 평가금액</span><span class="acct-val" id="ad-e">—</span></div>
       <div class="acct-row"><span class="acct-key">운용 수익</span><span class="acct-val" id="ad-g">—</span></div>
       <div class="acct-row"><span class="acct-key">수익률</span><span class="acct-val" id="ad-r">—</span></div>
-      <div class="acct-bar-wrap"><div class="acct-bar" id="ad-bar" style="background:#f59e0b"></div></div>
+      <div class="acct-bar-wrap"><div class="acct-bar" id="ad-bar" style="background:var(--dc)"></div></div>
     </div>
   </div>
 
@@ -150,11 +159,11 @@ footer p{font-size:11px;color:var(--text3);font-family:var(--mono);}
       <div class="chart-wrap">
         <div class="h380"><canvas id="main-chart"></canvas></div>
         <div class="legend" style="margin-top:10px;">
-          <div class="leg"><div class="leg-box" style="background:#3b82f666;border:1px solid #3b82f6"></div>연금저축</div>
-          <div class="leg"><div class="leg-box" style="background:#10b98166;border:1px solid #10b981"></div>개인형IRP</div>
-          <div class="leg"><div class="leg-box" style="background:#f59e0b66;border:1px solid #f59e0b"></div>DC</div>
-          <div class="leg"><div class="leg-dash" style="border-color:#ffffff60"></div>납입원금(합계)</div>
-          <div class="leg"><div class="leg-line" style="background:#ef4444;"></div>운용수익(합계)</div>
+          <div class="leg"><div class="leg-box" style="background:#60a5fa44;border:1px solid #60a5fa"></div>연금저축</div>
+          <div class="leg"><div class="leg-box" style="background:#4ade8044;border:1px solid #4ade80"></div>개인형IRP</div>
+          <div class="leg"><div class="leg-box" style="background:#ffd16644;border:1px solid #ffd166"></div>DC</div>
+          <div class="leg"><div class="leg-dash" style="border-color:#a8b0d080"></div>납입원금(합계)</div>
+          <div class="leg"><div class="leg-line" style="background:#ff9f43;"></div>운용수익(합계)</div>
         </div>
       </div>
     </div>
@@ -165,19 +174,21 @@ footer p{font-size:11px;color:var(--text3);font-family:var(--mono);}
     <div class="section-header">
       <span>🏦</span><span class="section-title">계좌별 흐름</span><div class="section-line"></div>
     </div>
-    <div class="two-col" style="gap:16px;">
-      <div class="card">
-        <div class="card-header"><div><div class="card-title">연금저축펀드</div><div class="card-sub">2020.03 ~</div></div></div>
-        <div class="chart-wrap"><div class="h240"><canvas id="chart-pension"></canvas></div></div>
-      </div>
+    <!-- 연금저축: 전체 너비 -->
+    <div class="card" style="margin-bottom:16px;">
+      <div class="card-header"><div><div class="card-title">연금저축펀드</div><div class="card-sub">2020.03 ~</div></div></div>
+      <div class="chart-wrap"><div class="h240"><canvas id="chart-pension"></canvas></div></div>
+    </div>
+    <!-- IRP + DC: 좌우 -->
+    <div class="two-col">
       <div class="card">
         <div class="card-header"><div><div class="card-title">개인형 IRP</div><div class="card-sub">2020.05 ~</div></div></div>
         <div class="chart-wrap"><div class="h240"><canvas id="chart-irp"></canvas></div></div>
       </div>
-    </div>
-    <div style="margin-top:16px;" class="card">
-      <div class="card-header"><div><div class="card-title">DC</div><div class="card-sub">2026.02 ~</div></div></div>
-      <div class="chart-wrap"><div class="h240"><canvas id="chart-dc"></canvas></div></div>
+      <div class="card">
+        <div class="card-header"><div><div class="card-title">DC</div><div class="card-sub">2026.02 ~</div></div></div>
+        <div class="chart-wrap"><div class="h240"><canvas id="chart-dc"></canvas></div></div>
+      </div>
     </div>
   </div>
 
@@ -197,77 +208,77 @@ updateClock();
 // ── 원장 데이터 (2020.03 ~ 2026.02) ──
 // 필드: lbl=연월, pp/pg/pe=연금저축(원금/수익/평가), ip/ig/ie=IRP, dp/dg/de=DC, tp/tg/te=합계
 const DATA = [
-  {lbl:'2020-03',pp:3000000,pg:-182335,pe:2817665,ip:0,ig:0,ie:0,dp:0,dg:0,de:0,tp:3000000,tg:-182335,te:2817665},
-  {lbl:'2020-04',pp:3000000,pg:3657,pe:3003657,ip:0,ig:0,ie:0,dp:0,dg:0,de:0,tp:3000000,tg:3657,te:3003657},
-  {lbl:'2020-05',pp:3000000,pg:103817,pe:3103817,ip:150000,ig:6,ie:150006,dp:0,dg:0,de:0,tp:3150000,tg:103823,te:3253823},
-  {lbl:'2020-06',pp:3000000,pg:156217,pe:3156217,ip:150000,ig:3242,ie:153242,dp:0,dg:0,de:0,tp:3150000,tg:159459,te:3309459},
-  {lbl:'2020-07',pp:3000000,pg:346742,pe:3346742,ip:150000,ig:11677,ie:161677,dp:0,dg:0,de:0,tp:3150000,tg:358419,te:3508419},
-  {lbl:'2020-08',pp:3000000,pg:503177,pe:3503177,ip:150000,ig:24022,ie:174022,dp:0,dg:0,de:0,tp:3150000,tg:527199,te:3677199},
-  {lbl:'2020-09',pp:3000000,pg:346412,pe:3346412,ip:150000,ig:15270,ie:165270,dp:0,dg:0,de:0,tp:3150000,tg:361682,te:3511682},
-  {lbl:'2020-10',pp:3000000,pg:246562,pe:3246562,ip:150000,ig:8105,ie:158105,dp:0,dg:0,de:0,tp:3150000,tg:254667,te:3404667},
-  {lbl:'2020-11',pp:3000000,pg:426007,pe:3426007,ip:150000,ig:16759,ie:166759,dp:0,dg:0,de:0,tp:3150000,tg:442766,te:3592766},
-  {lbl:'2020-12',pp:3000000,pg:545662,pe:3545662,ip:390000,ig:21298,ie:411298,dp:0,dg:0,de:0,tp:3390000,tg:566960,te:3956960},
-  {lbl:'2021-01',pp:11000000,pg:954603,pe:11954603,ip:390000,ig:41043,ie:431043,dp:0,dg:0,de:0,tp:11390000,tg:995646,te:12385646},
-  {lbl:'2021-02',pp:11000000,pg:926128,pe:11926128,ip:390000,ig:38331,ie:428331,dp:0,dg:0,de:0,tp:11390000,tg:964459,te:12354459},
-  {lbl:'2021-03',pp:11000000,pg:835028,pe:11835028,ip:390000,ig:31514,ie:421514,dp:0,dg:0,de:0,tp:11390000,tg:866542,te:12256542},
-  {lbl:'2021-04',pp:11000000,pg:1215659,pe:12215659,ip:390000,ig:43442,ie:433442,dp:0,dg:0,de:0,tp:11390000,tg:1259101,te:12649101},
-  {lbl:'2021-05',pp:11000000,pg:1457844,pe:12457844,ip:1000000,ig:216913,ie:1216913,dp:0,dg:0,de:0,tp:12000000,tg:1674757,te:13674757},
-  {lbl:'2021-06',pp:11000000,pg:2075529,pe:13075529,ip:1000000,ig:270037,ie:1270037,dp:0,dg:0,de:0,tp:12000000,tg:2345566,te:14345566},
-  {lbl:'2021-07',pp:12000000,pg:2034523,pe:14034523,ip:1500000,ig:283433,ie:1783433,dp:0,dg:0,de:0,tp:13500000,tg:2317956,te:15817956},
-  {lbl:'2021-08',pp:12000000,pg:2529224,pe:14529224,ip:1500000,ig:338756,ie:1838756,dp:0,dg:0,de:0,tp:13500000,tg:2867980,te:16367980},
-  {lbl:'2021-09',pp:12000000,pg:2245204,pe:14245204,ip:1500000,ig:303380,ie:1803380,dp:0,dg:0,de:0,tp:13500000,tg:2548584,te:16048584},
-  {lbl:'2021-10',pp:12000000,pg:2739698,pe:14739698,ip:1500000,ig:347787,ie:1847787,dp:0,dg:0,de:0,tp:13500000,tg:3087485,te:16587485},
-  {lbl:'2021-11',pp:12000000,pg:3239673,pe:15239673,ip:1500000,ig:420961,ie:1920961,dp:0,dg:0,de:0,tp:13500000,tg:3660634,te:17160634},
-  {lbl:'2021-12',pp:15000000,pg:3074398,pe:18074398,ip:1800000,ig:414066,ie:2214066,dp:0,dg:0,de:0,tp:16800000,tg:3488464,te:20288464},
-  {lbl:'2022-01',pp:17000000,pg:1373058,pe:18373058,ip:1800000,ig:251539,ie:2051539,dp:0,dg:0,de:0,tp:18800000,tg:1624597,te:20424597},
-  {lbl:'2022-02',pp:17000000,pg:1021013,pe:18021013,ip:1800000,ig:331096,ie:2131096,dp:0,dg:0,de:0,tp:18800000,tg:1352109,te:20152109},
-  {lbl:'2022-03',pp:17000000,pg:1908078,pe:18908078,ip:1800000,ig:428341,ie:2228341,dp:0,dg:0,de:0,tp:18800000,tg:2336419,te:21136419},
-  {lbl:'2022-04',pp:17000000,pg:545475,pe:17545475,ip:1800000,ig:305789,ie:2105789,dp:0,dg:0,de:0,tp:18800000,tg:851264,te:19651264},
-  {lbl:'2022-05',pp:17000000,pg:-93825,pe:16906175,ip:1800000,ig:267270,ie:2067270,dp:0,dg:0,de:0,tp:18800000,tg:173445,te:18973445},
-  {lbl:'2022-06',pp:17000000,pg:-479685,pe:16520315,ip:1800000,ig:163333,ie:1963333,dp:0,dg:0,de:0,tp:18800000,tg:-316352,te:18483648},
-  {lbl:'2022-07',pp:17000000,pg:614394,pe:17614394,ip:1800000,ig:301495,ie:2101495,dp:0,dg:0,de:0,tp:18800000,tg:915889,te:19715889},
-  {lbl:'2022-08',pp:17000000,pg:619819,pe:17619819,ip:1800000,ig:289906,ie:2089906,dp:0,dg:0,de:0,tp:18800000,tg:909725,te:19709725},
-  {lbl:'2022-09',pp:17000000,pg:-409656,pe:16590344,ip:1800000,ig:176148,ie:1976148,dp:0,dg:0,de:0,tp:18800000,tg:-233508,te:18566492},
-  {lbl:'2022-10',pp:18000000,pg:-644412,pe:17355588,ip:1800000,ig:179038,ie:1979038,dp:0,dg:0,de:0,tp:19800000,tg:-465374,te:19334626},
-  {lbl:'2022-11',pp:18000000,pg:-983647,pe:17016353,ip:2200000,ig:176727,ie:2376727,dp:0,dg:0,de:0,tp:20200000,tg:-806920,te:19393080},
-  {lbl:'2022-12',pp:19000000,pg:-2230022,pe:16769978,ip:2200000,ig:38826,ie:2238826,dp:0,dg:0,de:0,tp:21200000,tg:-2191196,te:19008804},
-  {lbl:'2023-01',pp:19000000,pg:-953395,pe:18046605,ip:2200000,ig:213996,ie:2413996,dp:0,dg:0,de:0,tp:21200000,tg:-739399,te:20460601},
-  {lbl:'2023-02',pp:19000000,pg:87880,pe:19087880,ip:2200000,ig:295569,ie:2495569,dp:0,dg:0,de:0,tp:21200000,tg:383449,te:21583449},
-  {lbl:'2023-03',pp:19000000,pg:990015,pe:19990015,ip:2200000,ig:369476,ie:2569476,dp:0,dg:0,de:0,tp:21200000,tg:1359491,te:22559491},
-  {lbl:'2023-04',pp:19500000,pg:1351729,pe:20851729,ip:2200000,ig:381089,ie:2581089,dp:0,dg:0,de:0,tp:21700000,tg:1732818,te:23432818},
-  {lbl:'2023-05',pp:19500000,pg:2526259,pe:22026259,ip:2200000,ig:542298,ie:2742298,dp:0,dg:0,de:0,tp:21700000,tg:3068557,te:24768557},
-  {lbl:'2023-06',pp:19500000,pg:3490835,pe:22990835,ip:2200000,ig:629867,ie:2829867,dp:0,dg:0,de:0,tp:21700000,tg:4120702,te:25820702},
-  {lbl:'2023-07',pp:19500000,pg:4097638,pe:23597638,ip:2200000,ig:695563,ie:2895563,dp:0,dg:0,de:0,tp:21700000,tg:4793201,te:26493201},
-  {lbl:'2023-08',pp:20000000,pg:4246877,pe:24246877,ip:2227591,ig:696774,ie:2924365,dp:0,dg:0,de:0,tp:22227591,tg:4943651,te:27171242},
-  {lbl:'2023-09',pp:21000000,pg:3231531,pe:24231531,ip:2227591,ig:582930,ie:2810521,dp:0,dg:0,de:0,tp:23227591,tg:3814461,te:27042052},
-  {lbl:'2023-10',pp:22500000,pg:2524247,pe:25024247,ip:2227591,ig:529956,ie:2757547,dp:0,dg:0,de:0,tp:24727591,tg:3054203,te:27781794},
-  {lbl:'2023-11',pp:22500000,pg:4219917,pe:26719917,ip:2450000,ig:681238,ie:3131238,dp:0,dg:0,de:0,tp:24950000,tg:4901155,te:29851155},
-  {lbl:'2023-12',pp:24000000,pg:5502803,pe:29502803,ip:3200000,ig:802394,ie:4002394,dp:0,dg:0,de:0,tp:27200000,tg:6305197,te:33505197},
-  {lbl:'2024-01',pp:24000000,pg:6312061,pe:30312061,ip:3200000,ig:894641,ie:4094641,dp:0,dg:0,de:0,tp:27200000,tg:7206702,te:34406702},
-  {lbl:'2024-02',pp:24000000,pg:7724402,pe:31724402,ip:3200000,ig:1038021,ie:4238021,dp:0,dg:0,de:0,tp:27200000,tg:8762423,te:35962423},
-  {lbl:'2024-03',pp:24000000,pg:9078947,pe:33078947,ip:3200000,ig:1166354,ie:4366354,dp:0,dg:0,de:0,tp:27200000,tg:10245301,te:37445301},
-  {lbl:'2024-04',pp:25000000,pg:9113522,pe:34113522,ip:3200000,ig:1171276,ie:4371276,dp:0,dg:0,de:0,tp:28200000,tg:10284798,te:38484798},
-  {lbl:'2024-05',pp:25000000,pg:10614007,pe:35614007,ip:3200000,ig:1333861,ie:4533861,dp:0,dg:0,de:0,tp:28200000,tg:11947868,te:40147868},
-  {lbl:'2024-06',pp:25000000,pg:12584968,pe:37584968,ip:3200000,ig:1538651,ie:4738651,dp:0,dg:0,de:0,tp:28200000,tg:14123619,te:42323619},
-  {lbl:'2024-07',pp:26000000,pg:11420842,pe:37420842,ip:3200000,ig:1405172,ie:4605172,dp:0,dg:0,de:0,tp:29200000,tg:12826014,te:42026014},
-  {lbl:'2024-08',pp:26000000,pg:11012800,pe:37012800,ip:4200000,ig:1360489,ie:5560489,dp:0,dg:0,de:0,tp:30200000,tg:12373289,te:42573289},
-  {lbl:'2024-09',pp:26000000,pg:11509230,pe:37509230,ip:6200000,ig:1432140,ie:7632140,dp:0,dg:0,de:0,tp:32200000,tg:12941370,te:45141370},
-  {lbl:'2024-10',pp:26000000,pg:13392585,pe:39392585,ip:6200000,ig:1700404,ie:7900404,dp:0,dg:0,de:0,tp:32200000,tg:15092989,te:47292989},
-  {lbl:'2024-11',pp:30000000,pg:14269960,pe:44269960,ip:7100000,ig:2259645,ie:9359645,dp:0,dg:0,de:0,tp:37100000,tg:16529605,te:53629605},
-  {lbl:'2024-12',pp:30000000,pg:17249110,pe:47249110,ip:7100000,ig:2811796,ie:9911796,dp:0,dg:0,de:0,tp:37100000,tg:20060906,te:57160906},
-  {lbl:'2025-01',pp:30000000,pg:16984733,pe:46984733,ip:10100000,ig:2774632,ie:12874632,dp:0,dg:0,de:0,tp:40100000,tg:19759365,te:59859365},
-  {lbl:'2025-02',pp:30000000,pg:15427881,pe:45427881,ip:10100000,ig:2312111,ie:12412111,dp:0,dg:0,de:0,tp:40100000,tg:17739992,te:57839992},
-  {lbl:'2025-03',pp:30000000,pg:12507418,pe:42507418,ip:10100000,ig:1636743,ie:11736743,dp:0,dg:0,de:0,tp:40100000,tg:14144161,te:54244161},
-  {lbl:'2025-04',pp:32000000,pg:11922178,pe:43922178,ip:10100000,ig:1527523,ie:11627523,dp:0,dg:0,de:0,tp:42100000,tg:13449701,te:55549701},
-  {lbl:'2025-05',pp:32000000,pg:14761070,pe:46761070,ip:10100000,ig:2244626,ie:12344626,dp:0,dg:0,de:0,tp:42100000,tg:17005696,te:59105696},
-  {lbl:'2025-06',pp:32000000,pg:16770034,pe:48770034,ip:10100000,ig:2672487,ie:12772487,dp:0,dg:0,de:0,tp:42100000,tg:19442521,te:61542521},
-  {lbl:'2025-07',pp:32000000,pg:20130152,pe:52130152,ip:10100000,ig:3489666,ie:13589666,dp:0,dg:0,de:0,tp:42100000,tg:23619818,te:65719818},
-  {lbl:'2025-08',pp:33000000,pg:20705833,pe:53705833,ip:10100000,ig:3655349,ie:13755349,dp:0,dg:0,de:0,tp:43100000,tg:24361182,te:67461182},
-  {lbl:'2025-09',pp:34000000,pg:24162925,pe:58162925,ip:10100000,ig:4452111,ie:14552111,dp:0,dg:0,de:0,tp:44100000,tg:28615036,te:72715036},
-  {lbl:'2025-10',pp:36000000,pg:28654498,pe:64654498,ip:10100000,ig:5479765,ie:15579765,dp:0,dg:0,de:0,tp:46100000,tg:34134263,te:80234263},
-  {lbl:'2025-11',pp:45000000,pg:28859053,pe:73859053,ip:10100000,ig:5497574,ie:15597574,dp:0,dg:0,de:0,tp:55100000,tg:34356627,te:89456627},
-  {lbl:'2025-12',pp:45000000,pg:28088406,pe:73088406,ip:10100000,ig:5316379,ie:15416379,dp:0,dg:0,de:0,tp:55100000,tg:33404785,te:88504785},
-  {lbl:'2026-01',pp:48000000,pg:28896772,pe:76896772,ip:13100000,ig:5506241,ie:18606241,dp:0,dg:0,de:0,tp:61100000,tg:34403013,te:95503013},
+  {lbl:'2020-03',pp:3000000,pg:-182335,pe:2817665,ip:0,ig:0,ie:0,dp:null,dg:null,de:null,tp:3000000,tg:-182335,te:2817665},
+  {lbl:'2020-04',pp:3000000,pg:3657,pe:3003657,ip:0,ig:0,ie:0,dp:null,dg:null,de:null,tp:3000000,tg:3657,te:3003657},
+  {lbl:'2020-05',pp:3000000,pg:103817,pe:3103817,ip:150000,ig:6,ie:150006,dp:null,dg:null,de:null,tp:3150000,tg:103823,te:3253823},
+  {lbl:'2020-06',pp:3000000,pg:156217,pe:3156217,ip:150000,ig:3242,ie:153242,dp:null,dg:null,de:null,tp:3150000,tg:159459,te:3309459},
+  {lbl:'2020-07',pp:3000000,pg:346742,pe:3346742,ip:150000,ig:11677,ie:161677,dp:null,dg:null,de:null,tp:3150000,tg:358419,te:3508419},
+  {lbl:'2020-08',pp:3000000,pg:503177,pe:3503177,ip:150000,ig:24022,ie:174022,dp:null,dg:null,de:null,tp:3150000,tg:527199,te:3677199},
+  {lbl:'2020-09',pp:3000000,pg:346412,pe:3346412,ip:150000,ig:15270,ie:165270,dp:null,dg:null,de:null,tp:3150000,tg:361682,te:3511682},
+  {lbl:'2020-10',pp:3000000,pg:246562,pe:3246562,ip:150000,ig:8105,ie:158105,dp:null,dg:null,de:null,tp:3150000,tg:254667,te:3404667},
+  {lbl:'2020-11',pp:3000000,pg:426007,pe:3426007,ip:150000,ig:16759,ie:166759,dp:null,dg:null,de:null,tp:3150000,tg:442766,te:3592766},
+  {lbl:'2020-12',pp:3000000,pg:545662,pe:3545662,ip:390000,ig:21298,ie:411298,dp:null,dg:null,de:null,tp:3390000,tg:566960,te:3956960},
+  {lbl:'2021-01',pp:11000000,pg:954603,pe:11954603,ip:390000,ig:41043,ie:431043,dp:null,dg:null,de:null,tp:11390000,tg:995646,te:12385646},
+  {lbl:'2021-02',pp:11000000,pg:926128,pe:11926128,ip:390000,ig:38331,ie:428331,dp:null,dg:null,de:null,tp:11390000,tg:964459,te:12354459},
+  {lbl:'2021-03',pp:11000000,pg:835028,pe:11835028,ip:390000,ig:31514,ie:421514,dp:null,dg:null,de:null,tp:11390000,tg:866542,te:12256542},
+  {lbl:'2021-04',pp:11000000,pg:1215659,pe:12215659,ip:390000,ig:43442,ie:433442,dp:null,dg:null,de:null,tp:11390000,tg:1259101,te:12649101},
+  {lbl:'2021-05',pp:11000000,pg:1457844,pe:12457844,ip:1000000,ig:216913,ie:1216913,dp:null,dg:null,de:null,tp:12000000,tg:1674757,te:13674757},
+  {lbl:'2021-06',pp:11000000,pg:2075529,pe:13075529,ip:1000000,ig:270037,ie:1270037,dp:null,dg:null,de:null,tp:12000000,tg:2345566,te:14345566},
+  {lbl:'2021-07',pp:12000000,pg:2034523,pe:14034523,ip:1500000,ig:283433,ie:1783433,dp:null,dg:null,de:null,tp:13500000,tg:2317956,te:15817956},
+  {lbl:'2021-08',pp:12000000,pg:2529224,pe:14529224,ip:1500000,ig:338756,ie:1838756,dp:null,dg:null,de:null,tp:13500000,tg:2867980,te:16367980},
+  {lbl:'2021-09',pp:12000000,pg:2245204,pe:14245204,ip:1500000,ig:303380,ie:1803380,dp:null,dg:null,de:null,tp:13500000,tg:2548584,te:16048584},
+  {lbl:'2021-10',pp:12000000,pg:2739698,pe:14739698,ip:1500000,ig:347787,ie:1847787,dp:null,dg:null,de:null,tp:13500000,tg:3087485,te:16587485},
+  {lbl:'2021-11',pp:12000000,pg:3239673,pe:15239673,ip:1500000,ig:420961,ie:1920961,dp:null,dg:null,de:null,tp:13500000,tg:3660634,te:17160634},
+  {lbl:'2021-12',pp:15000000,pg:3074398,pe:18074398,ip:1800000,ig:414066,ie:2214066,dp:null,dg:null,de:null,tp:16800000,tg:3488464,te:20288464},
+  {lbl:'2022-01',pp:17000000,pg:1373058,pe:18373058,ip:1800000,ig:251539,ie:2051539,dp:null,dg:null,de:null,tp:18800000,tg:1624597,te:20424597},
+  {lbl:'2022-02',pp:17000000,pg:1021013,pe:18021013,ip:1800000,ig:331096,ie:2131096,dp:null,dg:null,de:null,tp:18800000,tg:1352109,te:20152109},
+  {lbl:'2022-03',pp:17000000,pg:1908078,pe:18908078,ip:1800000,ig:428341,ie:2228341,dp:null,dg:null,de:null,tp:18800000,tg:2336419,te:21136419},
+  {lbl:'2022-04',pp:17000000,pg:545475,pe:17545475,ip:1800000,ig:305789,ie:2105789,dp:null,dg:null,de:null,tp:18800000,tg:851264,te:19651264},
+  {lbl:'2022-05',pp:17000000,pg:-93825,pe:16906175,ip:1800000,ig:267270,ie:2067270,dp:null,dg:null,de:null,tp:18800000,tg:173445,te:18973445},
+  {lbl:'2022-06',pp:17000000,pg:-479685,pe:16520315,ip:1800000,ig:163333,ie:1963333,dp:null,dg:null,de:null,tp:18800000,tg:-316352,te:18483648},
+  {lbl:'2022-07',pp:17000000,pg:614394,pe:17614394,ip:1800000,ig:301495,ie:2101495,dp:null,dg:null,de:null,tp:18800000,tg:915889,te:19715889},
+  {lbl:'2022-08',pp:17000000,pg:619819,pe:17619819,ip:1800000,ig:289906,ie:2089906,dp:null,dg:null,de:null,tp:18800000,tg:909725,te:19709725},
+  {lbl:'2022-09',pp:17000000,pg:-409656,pe:16590344,ip:1800000,ig:176148,ie:1976148,dp:null,dg:null,de:null,tp:18800000,tg:-233508,te:18566492},
+  {lbl:'2022-10',pp:18000000,pg:-644412,pe:17355588,ip:1800000,ig:179038,ie:1979038,dp:null,dg:null,de:null,tp:19800000,tg:-465374,te:19334626},
+  {lbl:'2022-11',pp:18000000,pg:-983647,pe:17016353,ip:2200000,ig:176727,ie:2376727,dp:null,dg:null,de:null,tp:20200000,tg:-806920,te:19393080},
+  {lbl:'2022-12',pp:19000000,pg:-2230022,pe:16769978,ip:2200000,ig:38826,ie:2238826,dp:null,dg:null,de:null,tp:21200000,tg:-2191196,te:19008804},
+  {lbl:'2023-01',pp:19000000,pg:-953395,pe:18046605,ip:2200000,ig:213996,ie:2413996,dp:null,dg:null,de:null,tp:21200000,tg:-739399,te:20460601},
+  {lbl:'2023-02',pp:19000000,pg:87880,pe:19087880,ip:2200000,ig:295569,ie:2495569,dp:null,dg:null,de:null,tp:21200000,tg:383449,te:21583449},
+  {lbl:'2023-03',pp:19000000,pg:990015,pe:19990015,ip:2200000,ig:369476,ie:2569476,dp:null,dg:null,de:null,tp:21200000,tg:1359491,te:22559491},
+  {lbl:'2023-04',pp:19500000,pg:1351729,pe:20851729,ip:2200000,ig:381089,ie:2581089,dp:null,dg:null,de:null,tp:21700000,tg:1732818,te:23432818},
+  {lbl:'2023-05',pp:19500000,pg:2526259,pe:22026259,ip:2200000,ig:542298,ie:2742298,dp:null,dg:null,de:null,tp:21700000,tg:3068557,te:24768557},
+  {lbl:'2023-06',pp:19500000,pg:3490835,pe:22990835,ip:2200000,ig:629867,ie:2829867,dp:null,dg:null,de:null,tp:21700000,tg:4120702,te:25820702},
+  {lbl:'2023-07',pp:19500000,pg:4097638,pe:23597638,ip:2200000,ig:695563,ie:2895563,dp:null,dg:null,de:null,tp:21700000,tg:4793201,te:26493201},
+  {lbl:'2023-08',pp:20000000,pg:4246877,pe:24246877,ip:2227591,ig:696774,ie:2924365,dp:null,dg:null,de:null,tp:22227591,tg:4943651,te:27171242},
+  {lbl:'2023-09',pp:21000000,pg:3231531,pe:24231531,ip:2227591,ig:582930,ie:2810521,dp:null,dg:null,de:null,tp:23227591,tg:3814461,te:27042052},
+  {lbl:'2023-10',pp:22500000,pg:2524247,pe:25024247,ip:2227591,ig:529956,ie:2757547,dp:null,dg:null,de:null,tp:24727591,tg:3054203,te:27781794},
+  {lbl:'2023-11',pp:22500000,pg:4219917,pe:26719917,ip:2450000,ig:681238,ie:3131238,dp:null,dg:null,de:null,tp:24950000,tg:4901155,te:29851155},
+  {lbl:'2023-12',pp:24000000,pg:5502803,pe:29502803,ip:3200000,ig:802394,ie:4002394,dp:null,dg:null,de:null,tp:27200000,tg:6305197,te:33505197},
+  {lbl:'2024-01',pp:24000000,pg:6312061,pe:30312061,ip:3200000,ig:894641,ie:4094641,dp:null,dg:null,de:null,tp:27200000,tg:7206702,te:34406702},
+  {lbl:'2024-02',pp:24000000,pg:7724402,pe:31724402,ip:3200000,ig:1038021,ie:4238021,dp:null,dg:null,de:null,tp:27200000,tg:8762423,te:35962423},
+  {lbl:'2024-03',pp:24000000,pg:9078947,pe:33078947,ip:3200000,ig:1166354,ie:4366354,dp:null,dg:null,de:null,tp:27200000,tg:10245301,te:37445301},
+  {lbl:'2024-04',pp:25000000,pg:9113522,pe:34113522,ip:3200000,ig:1171276,ie:4371276,dp:null,dg:null,de:null,tp:28200000,tg:10284798,te:38484798},
+  {lbl:'2024-05',pp:25000000,pg:10614007,pe:35614007,ip:3200000,ig:1333861,ie:4533861,dp:null,dg:null,de:null,tp:28200000,tg:11947868,te:40147868},
+  {lbl:'2024-06',pp:25000000,pg:12584968,pe:37584968,ip:3200000,ig:1538651,ie:4738651,dp:null,dg:null,de:null,tp:28200000,tg:14123619,te:42323619},
+  {lbl:'2024-07',pp:26000000,pg:11420842,pe:37420842,ip:3200000,ig:1405172,ie:4605172,dp:null,dg:null,de:null,tp:29200000,tg:12826014,te:42026014},
+  {lbl:'2024-08',pp:26000000,pg:11012800,pe:37012800,ip:4200000,ig:1360489,ie:5560489,dp:null,dg:null,de:null,tp:30200000,tg:12373289,te:42573289},
+  {lbl:'2024-09',pp:26000000,pg:11509230,pe:37509230,ip:6200000,ig:1432140,ie:7632140,dp:null,dg:null,de:null,tp:32200000,tg:12941370,te:45141370},
+  {lbl:'2024-10',pp:26000000,pg:13392585,pe:39392585,ip:6200000,ig:1700404,ie:7900404,dp:null,dg:null,de:null,tp:32200000,tg:15092989,te:47292989},
+  {lbl:'2024-11',pp:30000000,pg:14269960,pe:44269960,ip:7100000,ig:2259645,ie:9359645,dp:null,dg:null,de:null,tp:37100000,tg:16529605,te:53629605},
+  {lbl:'2024-12',pp:30000000,pg:17249110,pe:47249110,ip:7100000,ig:2811796,ie:9911796,dp:null,dg:null,de:null,tp:37100000,tg:20060906,te:57160906},
+  {lbl:'2025-01',pp:30000000,pg:16984733,pe:46984733,ip:10100000,ig:2774632,ie:12874632,dp:null,dg:null,de:null,tp:40100000,tg:19759365,te:59859365},
+  {lbl:'2025-02',pp:30000000,pg:15427881,pe:45427881,ip:10100000,ig:2312111,ie:12412111,dp:null,dg:null,de:null,tp:40100000,tg:17739992,te:57839992},
+  {lbl:'2025-03',pp:30000000,pg:12507418,pe:42507418,ip:10100000,ig:1636743,ie:11736743,dp:null,dg:null,de:null,tp:40100000,tg:14144161,te:54244161},
+  {lbl:'2025-04',pp:32000000,pg:11922178,pe:43922178,ip:10100000,ig:1527523,ie:11627523,dp:null,dg:null,de:null,tp:42100000,tg:13449701,te:55549701},
+  {lbl:'2025-05',pp:32000000,pg:14761070,pe:46761070,ip:10100000,ig:2244626,ie:12344626,dp:null,dg:null,de:null,tp:42100000,tg:17005696,te:59105696},
+  {lbl:'2025-06',pp:32000000,pg:16770034,pe:48770034,ip:10100000,ig:2672487,ie:12772487,dp:null,dg:null,de:null,tp:42100000,tg:19442521,te:61542521},
+  {lbl:'2025-07',pp:32000000,pg:20130152,pe:52130152,ip:10100000,ig:3489666,ie:13589666,dp:null,dg:null,de:null,tp:42100000,tg:23619818,te:65719818},
+  {lbl:'2025-08',pp:33000000,pg:20705833,pe:53705833,ip:10100000,ig:3655349,ie:13755349,dp:null,dg:null,de:null,tp:43100000,tg:24361182,te:67461182},
+  {lbl:'2025-09',pp:34000000,pg:24162925,pe:58162925,ip:10100000,ig:4452111,ie:14552111,dp:null,dg:null,de:null,tp:44100000,tg:28615036,te:72715036},
+  {lbl:'2025-10',pp:36000000,pg:28654498,pe:64654498,ip:10100000,ig:5479765,ie:15579765,dp:null,dg:null,de:null,tp:46100000,tg:34134263,te:80234263},
+  {lbl:'2025-11',pp:45000000,pg:28859053,pe:73859053,ip:10100000,ig:5497574,ie:15597574,dp:null,dg:null,de:null,tp:55100000,tg:34356627,te:89456627},
+  {lbl:'2025-12',pp:45000000,pg:28088406,pe:73088406,ip:10100000,ig:5316379,ie:15416379,dp:null,dg:null,de:null,tp:55100000,tg:33404785,te:88504785},
+  {lbl:'2026-01',pp:48000000,pg:28896772,pe:76896772,ip:13100000,ig:5506241,ie:18606241,dp:null,dg:null,de:null,tp:61100000,tg:34403013,te:95503013},
   {lbl:'2026-02',pp:50000000,pg:27498812,pe:77498812,ip:13100000,ig:5181857,ie:18281857,dp:2941010,dg:-70509,de:2870501,tp:66041010,tg:32610160,te:98651170},
 ];
 
@@ -332,13 +343,20 @@ function renderSummary(){
   if(irpDurEl) irpDurEl.textContent = calcDur(2020, 5);
   const dcDurEl = document.getElementById('dur-dc');
   if(dcDurEl) dcDurEl.textContent = calcDur(2026, 2);
+  // 혹시 DOM 준비 안 됐을 때를 위한 안전장치
+  setTimeout(()=>{
+    ['dur-pension','dur-irp','dur-dc'].forEach((id,i)=>{
+      const el=document.getElementById(id);
+      if(el&&!el.textContent) el.textContent=calcDur([2020,2020,2026][i],[3,5,2][i]);
+    });
+  }, 100);
 
   // 계좌별
   const totalForBar = te;
   [
-    {pre:'ap', p:d.pp, g:d.pg, e:d.pe, color:'#3b82f6'},
-    {pre:'ai', p:d.ip, g:d.ig, e:d.ie, color:'#10b981'},
-    {pre:'ad', p:d.dp, g:d.dg, e:d.de, color:'#f59e0b'},
+    {pre:'ap', p:d.pp, g:d.pg, e:d.pe, color:'#60a5fa'},
+    {pre:'ai', p:d.ip, g:d.ig, e:d.ie, color:'#4ade80'},
+    {pre:'ad', p:d.dp, g:d.dg, e:d.de, color:'#ffd166'},
   ].forEach(a=>{
     document.getElementById(a.pre+'-p').textContent=fmtFull(a.p);
     document.getElementById(a.pre+'-e').textContent=fmtFull(a.e);
@@ -371,12 +389,12 @@ function renderMainChart(){
     data:{
       labels,
       datasets:[
-        {label:'연금저축',data:sliced.map(d=>d.pe),backgroundColor:'#3b82f666',borderColor:'#3b82f6',borderWidth:1,stack:'eval',order:2},
-        {label:'개인형IRP',data:sliced.map(d=>d.ie),backgroundColor:'#10b98166',borderColor:'#10b981',borderWidth:1,stack:'eval',order:2},
-        {label:'DC',data:sliced.map(d=>d.de||0),backgroundColor:'#f59e0b66',borderColor:'#f59e0b',borderWidth:1,stack:'eval',order:2},
-        {type:'line',label:'납입원금',data:sliced.map(d=>d.tp),borderColor:'#ffffff50',borderWidth:1.5,borderDash:[4,3],pointRadius:0,fill:false,stack:undefined,order:1},
-        {type:'line',label:'운용수익',data:sliced.map(d=>d.tg),borderColor:sliced.map(d=>d.tg>=0?'#10b981':'#ef4444')[0]||'#10b981',
-          segment:{borderColor:ctx2=>ctx2.p0.parsed.y>=0?'#10b981':'#ef4444'},
+        {label:'연금저축',data:sliced.map(d=>d.pe),backgroundColor:'#3b82f666',borderColor:'#60a5fa',borderWidth:1,stack:'eval',order:2},
+        {label:'개인형IRP',data:sliced.map(d=>d.ie),backgroundColor:'#10b98166',borderColor:'#4ade80',borderWidth:1,stack:'eval',order:2},
+        {label:'DC',data:sliced.map(d=>d.de||0),backgroundColor:'#f59e0b66',borderColor:'#ffd166',borderWidth:1,stack:'eval',order:2},
+        {type:'line',label:'납입원금',data:sliced.map(d=>d.tp),borderColor:'#b0b8d860',borderWidth:1.5,borderDash:[4,3],pointRadius:0,fill:false,stack:undefined,order:1},
+        {type:'line',label:'운용수익',data:sliced.map(d=>d.tg),borderColor:sliced.map(d=>d.tg>=0?'#4ade80':'#ef4444')[0]||'#4ade80',
+          segment:{borderColor:ctx2=>ctx2.p0.parsed.y>=0?'#4ade80':'#ef4444'},
           borderWidth:2,pointRadius:0,fill:false,stack:undefined,order:0},
       ]
     },
@@ -423,13 +441,13 @@ function makeAcctChart(canvasId, evalData, principalData, labels, color){
 
 function renderAcctCharts(){
   const labels=DATA.map(d=>d.lbl);
-  pensionChart=makeAcctChart('chart-pension',DATA.map(d=>d.pe),DATA.map(d=>d.pp),labels,'#3b82f6');
+  pensionChart=makeAcctChart('chart-pension',DATA.map(d=>d.pe),DATA.map(d=>d.pp),labels,'#60a5fa');
   // IRP: 2020.05부터
   const irpData=DATA.map(d=>d.ie||null);
-  irpChart=makeAcctChart('chart-irp',irpData,DATA.map(d=>d.ip||null),labels,'#10b981');
+  irpChart=makeAcctChart('chart-irp',irpData,DATA.map(d=>d.ip||null),labels,'#4ade80');
   // DC: 2026.02부터
-  const dcData=DATA.map(d=>d.de||null);
-  dcChart=makeAcctChart('chart-dc',dcData,DATA.map(d=>d.dp||null),labels,'#f59e0b');
+  const dcData=DATA.map(d=>d.lbl<'2026-02'?null:d.de);
+  dcChart=makeAcctChart('chart-dc',dcData,DATA.map(d=>d.lbl<'2026-02'?null:d.dp),labels,'#ffd166');
 }
 
 renderSummary();
