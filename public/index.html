@@ -587,13 +587,19 @@ function renderMilestones() {
   if (nextM) {
     const fromVal = currM ? currM.target : 0;
     const pct = Math.min(100, ((currentVal - fromVal) / (nextM.target - fromVal) * 100));
-    document.getElementById('lp-from').textContent = currM ? `Lv.${currM.lv} ${(fromVal/1e8).toFixed(1)}억` : '시작';
-    document.getElementById('lp-to').textContent = `Lv.${nextM.lv} ${nextM.target>=1e8?(nextM.target/1e8).toFixed(0)+'억':(nextM.target/1e4).toFixed(0)+'만'}`;
+    function fmtV(v) {
+      const uk = Math.floor(v / 1e8);
+      const man = Math.floor((v % 1e8) / 1e4);
+      if (uk === 0) return man.toLocaleString() + '만원';
+      if (man === 0) return uk.toLocaleString() + '억원';
+      return uk.toLocaleString() + '억 ' + man.toLocaleString() + '만원';
+    }
+    document.getElementById('lp-from').textContent = currM ? `Lv.${currM.lv} ${fmtV(fromVal)}` : '시작';
+    document.getElementById('lp-to').textContent = `Lv.${nextM.lv} ${fmtV(nextM.target)}`;
     document.getElementById('lp-pct').textContent = pct.toFixed(1) + '%';
     document.getElementById('lp-bar').style.width = pct + '%';
     const remain = nextM.target - currentVal;
-    document.getElementById('lp-desc').textContent =
-      `다음 레벨까지 ${remain>=1e8?(remain/1e8).toFixed(2)+'억':(remain/1e4).toFixed(0)+'만원'} 남았어요 🚀`;
+    document.getElementById('lp-desc').textContent = `다음 레벨까지 ${fmtV(remain)} 남았어요 🚀`;
   } else {
     document.getElementById('lp-from').textContent = '최고 레벨 달성!';
     document.getElementById('lp-pct').textContent = '100%';
@@ -615,6 +621,13 @@ function renderMilestones() {
 
     const achievedLabel = m.achieved ? m.achieved.replace('-','년 ')+'월' : '';
     const monthsLabel = m.months ? `${m.months}개월 소요` : '';
+    function fmtTarget(v) {
+      const uk = Math.floor(v / 1e8);
+      const man = Math.floor((v % 1e8) / 1e4);
+      if (uk === 0) return man.toLocaleString() + '만원';
+      if (man === 0) return uk.toLocaleString() + '억원';
+      return uk.toLocaleString() + '억 ' + man.toLocaleString() + '만원';
+    }
 
     return `<div style="
       background:${done ? 'var(--bg3)' : 'var(--bg)'};
